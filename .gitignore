@@ -1,0 +1,5 @@
+node_modules/
+tools/shots/
+tools/*.png
+tools/*.log
+package-lock.json

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ITM Partners — Ingénierie · Travaux · Maintenance</title>
+<meta name="description" content="ITM Partners — société d'ingénierie et des réalisations techniques. Construction métallique, électricité industrielle et maintenance. Mohammedia, Maroc. Depuis 2012.">
+<meta name="theme-color" content="#07080B">
+<link rel="preload" href="fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/main.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<!-- ══════════════════════════════ GRAIN + VIGNETTE (topmost fixed layer) -->
+<div class="grain" aria-hidden="true"></div>
+<div class="scanlines" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════ PRELOADER -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__bars">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="loader__inner">
+    <div class="loader__mark">
+      <span class="loader__itm">ITM</span><span class="loader__p">Partners</span>
+    </div>
+    <div class="loader__meta">
+      <span class="mono">INGÉNIERIE · TRAVAUX · MAINTENANCE</span>
+      <span class="mono loader__num" id="loaderNum">000</span>
+    </div>
+    <div class="loader__track"><i id="loaderFill"></i></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ NAV -->
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="ITM Partners, accueil">
+    <svg class="nav__glyph" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.3 13h21.4M13 1.8v22.4M5.2 5.2c4.4 3.2 11.2 3.2 15.6 0M5.2 20.8c4.4-3.2 11.2-3.2 15.6 0" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".72"/></svg>
+    <span class="nav__word"><b>itm</b> Partners</span>
+  </a>
+  <nav class="nav__links" aria-label="Navigation principale">
+    <a href="#manifeste" data-nav>Maison</a>
+    <a href="#metiers" data-nav>Métiers</a>
+    <a href="#moyens" data-nav>Moyens</a>
+    <a href="#processus" data-nav>Processus</a>
+  </nav>
+  <a href="#contact" class="nav__cta" data-nav>
+    <span>Nous consulter</span>
+    <i class="nav__dot"></i>
+  </a>
+</header>
+
+<!-- ══════════════════════════════ HERO — 4 depth layers -->
+<main id="top">
+<section class="hero" id="hero">
+  <div class="hero__stage" id="heroStage">
+
+    <!-- L0 : deep background plate -->
+    <div class="hero__plate" data-depth="0.10">
+      <img src="assets/arc-field.jpg" alt="" aria-hidden="true">
+    </div>
+    <div class="hero__wash" aria-hidden="true"></div>
+
+    <!-- L1 : structural lattice, screened -->
+    <div class="hero__lattice" data-depth="0.24" aria-hidden="true">
+      <img src="assets/steel-lattice.jpg" alt="">
+    </div>
+
+    <!-- L2 : ghost glyph -->
+    <div class="hero__ghost" data-depth="0.46" aria-hidden="true">ITM</div>
+
+    <!-- L3 : rule grid -->
+    <div class="hero__grid" data-depth="0.62" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <!-- L4 : content -->
+    <div class="hero__content" data-depth="1">
+      <p class="hero__eyebrow mono"><i class="pulse"></i>Mohammedia · Maroc — depuis 2012</p>
+      <h1 class="hero__title">
+        <span class="line"><span class="line__i">L'ingénierie</span></span>
+        <span class="line"><span class="line__i">qui <em>tient</em></span></span>
+        <span class="line"><span class="line__i">dans le temps.</span></span>
+      </h1>
+      <div class="hero__sub">
+        <p>Société d'ingénierie et des réalisations techniques. Construction métallique, électricité industrielle et maintenance&nbsp;— de l'étude à la mise en service, puis tout au long du cycle de vie de votre installation.</p>
+      </div>
+      <div class="hero__actions">
+        <a href="#metiers" class="btn btn--solid" data-nav data-magnet>
+          <span class="btn__label"><b>Découvrir nos métiers</b><b>Découvrir nos métiers</b></span>
+        </a>
+        <a href="#contact" class="btn btn--ghost" data-nav data-magnet>
+          <span class="btn__label"><b>Lancer un projet</b><b>Lancer un projet</b></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- L5 : bottom ticker -->
+    <div class="hero__foot">
+      <div class="hero__stats">
+        <div><b class="mono" data-count="2012" data-plain>2012</b><span>Année de création</span></div>
+        <div><b class="mono" data-count="3">0</b><span>Métiers intégrés</span></div>
+        <div><b class="mono" data-count="17">0</b><span>Moyens techniques</span></div>
+        <div><b class="mono">HT / MT</b><span>Domaines d'intervention</span></div>
+      </div>
+      <div class="hero__scroll mono"><span>Défiler</span><i></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ MANIFESTE — pinned word scrub -->
+<section class="manifeste" id="manifeste">
+  <div class="manifeste__bg" aria-hidden="true"><img src="assets/weld.jpg" alt=""></div>
+  <div class="manifeste__inner">
+    <span class="tag mono"><i></i>01 — La maison</span>
+    <p class="manifeste__text" id="scrubText">Une équipe pluridisciplinaire qui prend en charge la maîtrise d'œuvre de vos projets industriels&nbsp;: en amont par notre bureau d'études, en aval par la réalisation, puis dans la durée à travers des contrats de maintenance.</p>
+    <div class="manifeste__sign">
+      <span class="mono">Société d'ingénierie et des réalisations techniques</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ MÉTIERS — pinned horizontal -->
+<section class="metiers" id="metiers">
+  <div class="metiers__pin" id="metiersPin">
+    <div class="metiers__head">
+      <span class="tag mono"><i></i>02 — Métiers</span>
+      <span class="metiers__count mono"><b id="panelNum">01</b> / 03</span>
+    </div>
+    <div class="metiers__track" id="metiersTrack">
+
+      <article class="panel" data-panel="1">
+        <div class="panel__media"><img src="assets/steel-lattice.jpg" alt="Charpente et ossature métallique" data-pfx></div>
+        <div class="panel__scrim"></div>
+        <b class="panel__num" aria-hidden="true">01</b>
+          <div class="panel__spec">
+            <span class="panel__spec-t mono">Charpente / Ossature</span>
+            <dl>
+              <div><dt class="mono">MATÉRIAU</dt><dd class="mono">Acier S235 / S355</dd></div>
+              <div><dt class="mono">ASSEMBLAGE</dt><dd class="mono">Soudé · boulonné</dd></div>
+              <div><dt class="mono">PROTECTION</dt><dd class="mono">Sablage + peinture</dd></div>
+            </dl>
+          </div>
+        <div class="panel__body">
+          <h2 class="panel__title">Construction<br>métallique</h2>
+          <p class="panel__lede">Charpente, ossature, passerelles et supports de tuyauterie. Chaudronnerie légère, sablage et protection anticorrosion, exécutés par nos propres équipes.</p>
+          <ul class="panel__list mono">
+            <li><span>01</span>Charpente &amp; ossature</li>
+            <li><span>02</span>Passerelles &amp; platelages</li>
+            <li><span>03</span>Supports de tuyauterie</li>
+            <li><span>04</span>Chaudronnerie légère</li>
+            <li><span>05</span>Sablage &amp; peinture industrielle</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel panel--red" data-panel="2">
+        <div class="panel__media"><img src="assets/hv-network.jpg" alt="Réseaux électriques haute et moyenne tension" data-pfx></div>
+        <div class="panel__scrim"></div>
+        <b class="panel__num" aria-hidden="true">02</b>
+          <div class="panel__spec">
+            <span class="panel__spec-t mono">Réseaux HT / MT</span>
+            <dl>
+              <div><dt class="mono">TENSION</dt><dd class="mono">Haute &amp; moyenne</dd></div>
+              <div><dt class="mono">OUVRAGES</dt><dd class="mono">Postes · transformateurs</dd></div>
+              <div><dt class="mono">CONTRÔLE</dt><dd class="mono">Mégohmmètre</dd></div>
+            </dl>
+          </div>
+        <div class="panel__body">
+          <h2 class="panel__title">Électricité<br>industrielle</h2>
+          <p class="panel__lede">Lignes HT et MT, postes de transformation, transformateurs et réseaux de distribution. Armoires, automatismes, protection incendie et éclairage public.</p>
+          <ul class="panel__list mono">
+            <li><span>01</span>Lignes HT / MT</li>
+            <li><span>02</span>Postes de transformation</li>
+            <li><span>03</span>Réseaux &amp; distribution</li>
+            <li><span>04</span>Armoires &amp; automatismes</li>
+            <li><span>05</span>Protection incendie</li>
+            <li><span>06</span>Éclairage public</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="panel panel--blue" data-panel="3">
+        <div class="panel__media"><img src="assets/thermogram.jpg" alt="Contrôle thermographique d'une installation" data-pfx></div>
+        <div class="panel__scrim"></div>
+        <b class="panel__num" aria-hidden="true">03</b>
+          <div class="panel__spec">
+            <span class="panel__spec-t mono">Contrats pluriannuels</span>
+            <dl>
+              <div><dt class="mono">PRÉVENTIF</dt><dd class="mono">Plan annuel</dd></div>
+              <div><dt class="mono">INSTRUMENTS</dt><dd class="mono">Thermographie IR</dd></div>
+              <div><dt class="mono">ALIGNEMENT</dt><dd class="mono">Électronique</dd></div>
+            </dl>
+          </div>
+        <div class="panel__body">
+          <h2 class="panel__title">Maintenance<br>industrielle</h2>
+          <p class="panel__lede">Préventive et corrective, sous contrat pluriannuel. Thermographie infrarouge, alignement d'arbres, mesures d'isolement et assistance aux arrêts techniques.</p>
+          <ul class="panel__list mono">
+            <li><span>01</span>Contrats préventifs</li>
+            <li><span>02</span>Thermographie infrarouge</li>
+            <li><span>03</span>Alignement électronique</li>
+            <li><span>04</span>Mesures d'isolement</li>
+            <li><span>05</span>Arrêts techniques</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+    <div class="metiers__rail" aria-hidden="true"><i id="metiersRail"></i></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CAPACITÉS — layered rows -->
+<section class="caps" id="capacites">
+  <div class="caps__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="caps__head">
+      <span class="tag mono"><i></i>03 — Capacités</span>
+      <h2 class="h2"><span class="line"><span class="line__i">De l'étude</span></span><span class="line"><span class="line__i">à la mise en service.</span></span></h2>
+    </div>
+    <div class="caps__rows">
+      <div class="caps__row" data-img="assets/lattice-blue.jpg">
+        <b class="mono">A/01</b>
+        <h3>Bureau d'études</h3>
+        <p>Notes de calcul, plans d'exécution, dimensionnement électrique et mécanique, dossiers techniques.</p>
+        <i class="caps__arrow" aria-hidden="true">↗</i>
+      </div>
+      <div class="caps__row" data-img="assets/steel-lattice.jpg">
+        <b class="mono">A/02</b>
+        <h3>Réalisation &amp; montage</h3>
+        <p>Fabrication en atelier, levage et montage sur site, raccordements, essais et mise en service.</p>
+        <i class="caps__arrow" aria-hidden="true">↗</i>
+      </div>
+      <div class="caps__row" data-img="assets/hv-network.jpg">
+        <b class="mono">A/03</b>
+        <h3>Maîtrise d'œuvre</h3>
+        <p>Pilotage de projet, coordination des corps d'état, suivi de planning et réception des ouvrages.</p>
+        <i class="caps__arrow" aria-hidden="true">↗</i>
+      </div>
+      <div class="caps__row" data-img="assets/thermogram.jpg">
+        <b class="mono">A/04</b>
+        <h3>Contrats de maintenance</h3>
+        <p>Accompagnement sur le cycle de vie&nbsp;: plans préventifs, interventions correctives, rapports de contrôle.</p>
+        <i class="caps__arrow" aria-hidden="true">↗</i>
+      </div>
+    </div>
+  </div>
+  <div class="caps__preview" id="capsPreview" aria-hidden="true"><img src="" alt=""></div>
+</section>
+
+<!-- ══════════════════════════════ MOYENS -->
+<section class="moyens" id="moyens">
+  <div class="moyens__bg" aria-hidden="true"><img src="assets/thermogram.jpg" alt=""></div>
+  <div class="wrap">
+    <div class="moyens__head">
+      <span class="tag mono"><i></i>04 — Moyens</span>
+      <h2 class="h2"><span class="line"><span class="line__i">Humains</span></span><span class="line"><span class="line__i">et matériels.</span></span></h2>
+      <p class="moyens__lede">Une équipe permanente et un parc d'équipements détenu en propre&nbsp;— complété, pour l'instrumentation spécialisée, par nos partenariats techniques.</p>
+    </div>
+
+    <div class="moyens__grid">
+      <div class="crew">
+        <span class="crew__label mono">Moyens humains</span>
+        <ul class="crew__list">
+          <li><b class="mono" data-count="2">0</b><span>Ingénieurs — direction technique &amp; administrative</span></li>
+          <li><b class="mono" data-count="2">0</b><span>Techniciens électriciens</span></li>
+          <li><b class="mono" data-count="1">0</b><span>Technicien construction métallique</span></li>
+          <li><b class="mono">+</b><span>Ouvriers qualifiés</span></li>
+        </ul>
+      </div>
+      <div class="kit">
+        <span class="crew__label mono">Moyens techniques</span>
+        <ul class="kit__list mono" id="kitList">
+          <li><i>01</i>Postes de soudure — arc, semi, argon</li>
+          <li><i>02</i>Moyens d'oxycoupage</li>
+          <li><i>03</i>Cisaille 3000 mm / 10 mm</li>
+          <li><i>04</i>Plieuse</li>
+          <li><i>05</i>Cintreuse</li>
+          <li><i>06</i>Presse</li>
+          <li><i>07</i>Perceuse à colonne</li>
+          <li><i>08</i>Tronçonneuse</li>
+          <li><i>09</i>Divers matériels de construction métallique</li>
+          <li><i>10</i>Caméra thermographique <em>partenariat</em></li>
+          <li><i>11</i>Outil d'alignement électronique <em>partenariat</em></li>
+          <li><i>12</i>Compresseur</li>
+          <li><i>13</i>Kit complet pour sablage</li>
+          <li><i>14</i>Mégohmmètre</li>
+          <li><i>15</i>Sertisseuse hydraulique</li>
+          <li><i>16</i>Outillage électrique</li>
+          <li><i>17</i>Véhicules de service ×2</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PROCESSUS — sticky steps + drawn line -->
+<section class="proc" id="processus">
+  <div class="wrap proc__wrap">
+    <div class="proc__sticky">
+      <span class="tag mono"><i></i>05 — Processus</span>
+      <h2 class="h2"><span class="line"><span class="line__i">Quatre temps,</span></span><span class="line"><span class="line__i">un seul</span></span><span class="line"><span class="line__i">interlocuteur.</span></span></h2>
+      <div class="proc__rail" aria-hidden="true">
+        <i id="procFill"></i>
+        <div class="proc__dots" id="procDots">
+          <b>Étude</b><b>Fabrication</b><b>Réalisation</b><b>Maintenance</b>
+        </div>
+      </div>
+    </div>
+    <ol class="proc__steps">
+      <li class="step"><b class="mono">01</b><h3>Étude</h3><p>Analyse du besoin, relevés sur site, notes de calcul et chiffrage. Le dossier technique est validé avec vous avant tout engagement.</p></li>
+      <li class="step"><b class="mono">02</b><h3>Fabrication</h3><p>Préfabrication en atelier — découpe, pliage, cintrage, soudure — avec contrôle dimensionnel et traitement anticorrosion.</p></li>
+      <li class="step"><b class="mono">03</b><h3>Réalisation</h3><p>Montage, raccordement et essais sur site. Coordination des intervenants, suivi de planning, réception contradictoire.</p></li>
+      <li class="step"><b class="mono">04</b><h3>Maintenance</h3><p>Plan préventif, interventions correctives et contrôles instrumentés — thermographie, isolement, alignement — sur toute la durée d'exploitation.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ SECTEURS — velocity marquee -->
+<section class="sect" id="secteurs" aria-label="Secteurs d'intervention">
+  <div class="sect__row" data-dir="1"><div class="sect__inner mono" data-marq>
+    <span>Industrie de process</span><i>◆</i><span>Agroalimentaire</span><i>◆</i><span>Chimie &amp; pétrochimie</span><i>◆</i><span>Cimenterie</span><i>◆</i><span>Logistique</span><i>◆</i><span>Énergie</span><i>◆</i>
+  </div></div>
+  <div class="sect__row sect__row--alt" data-dir="-1"><div class="sect__inner mono" data-marq>
+    <span>Postes de transformation</span><i>◆</i><span>Éclairage public</span><i>◆</i><span>Protection incendie</span><i>◆</i><span>Automatismes</span><i>◆</i><span>Charpente</span><i>◆</i><span>Thermographie</span><i>◆</i>
+  </div></div>
+</section>
+
+<!-- ══════════════════════════════ CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact__plate" aria-hidden="true"><img src="assets/arc-field.jpg" alt=""></div>
+  <div class="wrap contact__wrap">
+    <span class="tag mono"><i></i>06 — Contact</span>
+    <h2 class="contact__title">
+      <span class="line"><span class="line__i">Parlons de</span></span>
+      <span class="line"><span class="line__i">votre installation.</span></span>
+    </h2>
+    <div class="contact__grid">
+      <div class="card">
+        <span class="card__k mono">Siège</span>
+        <p>N°2 Wahda, 2<sup>e</sup> étage, Appt. N°3<br>Bd de la Résistance<br>28830 Mohammedia — Maroc</p>
+      </div>
+      <div class="card">
+        <span class="card__k mono">Téléphone</span>
+        <p><a href="tel:+212523320673">+212 5 23 32 06 73</a><br><span class="dim">Fax +212 5 23 32 06 72</span></p>
+      </div>
+      <div class="card">
+        <span class="card__k mono">Courriel</span>
+        <p><a href="mailto:contact@itmp.ma">contact@itmp.ma</a><br><span class="dim">www.itmp.ma</span></p>
+      </div>
+    </div>
+    <a href="mailto:contact@itmp.ma" class="bigcta" data-magnet>
+      <span class="bigcta__ring" aria-hidden="true"></span>
+      <span class="bigcta__txt"><b>Écrire à ITM Partners</b><b>Écrire à ITM Partners</b></span>
+    </a>
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════════════════ FOOTER — wordmark reveal -->
+<footer class="foot" id="foot">
+  <div class="wrap foot__top">
+    <div class="foot__col">
+      <span class="mono dim">Société</span>
+      <p>ITM Partners — société d'ingénierie<br>et des réalisations techniques.</p>
+    </div>
+    <div class="foot__col">
+      <span class="mono dim">Métiers</span>
+      <p>Construction métallique<br>Électricité industrielle<br>Maintenance industrielle</p>
+    </div>
+    <div class="foot__col">
+      <span class="mono dim">Coordonnées</span>
+      <p>Bd de la Résistance, Mohammedia<br>+212 5 23 32 06 73<br>contact@itmp.ma</p>
+    </div>
+  </div>
+  <div class="foot__mark" aria-hidden="true">
+    <svg viewBox="0 0 1000 118" preserveAspectRatio="xMidYMid meet" role="presentation">
+      <defs><linearGradient id="markGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#F1F4F9" stop-opacity=".18"/>
+        <stop offset="1" stop-color="#F1F4F9" stop-opacity="0"/>
+      </linearGradient></defs>
+      <text x="500" y="96" text-anchor="middle" textLength="988" lengthAdjust="spacingAndGlyphs">ITM PARTNERS</text>
+    </svg>
+  </div>
+  <div class="wrap foot__bar mono">
+    <span>© 2012–2026 ITM Partners. Tous droits réservés.</span>
+    <span>Ingénierie · Travaux · Maintenance</span>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/CustomEase.min.js"></script>
+<script src="vendor/ScrollToPlugin.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="vendor/split-type.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
