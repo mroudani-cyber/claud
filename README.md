@@ -51,3 +51,20 @@ none are published, so none were invented.
 STEPS=16 node tools/shoot.js site-a-forge 4600 a desktop
 node tools/find-overflow.js 4600 390 844
 ```
+
+## Verification status
+
+| Site | Viewport | Height | Console errors | Overflow | Clipped text |
+|---|---|---|---|---|---|
+| A Forge | 1600×950 | 11331px | 0 | none | none |
+| A Forge | 1440×900 | 10985px | 0 | none | none |
+| A Forge | 834×1112 | 12042px | 0 | none | none |
+| A Forge | 390×844 | 10250px | 0 | none | none |
+| B Dossier | 1600×950 | 9669px | 0 | none | none |
+| B Dossier | 1440×900 | 9180px | 0 | none | none |
+| B Dossier | 834×1112 | 8823px | 0 | none | none |
+| B Dossier | 390×844 | 7980px | 0 | none | none |
+
+Also checked on both: single `<h1>`, no skipped heading levels, every
+`<img>` has `alt`, no empty links, `lang="fr"`, sensible tab order, and
+nothing left stuck at `opacity: 0` in the viewport.

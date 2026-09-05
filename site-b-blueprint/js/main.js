@@ -201,10 +201,12 @@
   function ledger() {
     const track = q('#ledgerTrack'); if (!track) return;
     const dist = () => Math.max(0, track.scrollWidth - q('#ledger').clientWidth + 40);
+    // drift the full ledger across one viewport-plus of scroll so all
+    // seventeen entries read in sequence rather than flashing past
     gsap.fromTo(track, { x: 0 }, {
       x: () => -dist(), ease: 'none',
       scrollTrigger: {
-        trigger: '.moyens', start: 'top 30%', end: 'bottom bottom',
+        trigger: '#ledger', start: 'top bottom', end: 'bottom top',
         scrub: .7, invalidateOnRefresh: true
       }
     });
@@ -306,11 +308,16 @@
   }
 
   function init() {
+    if (REDUCED) { counters(); chrome(); return; }
     headings(); fiche(); sheets(); schema(); ledger(); tail(); marquees(); chrome();
     ScrollTrigger.refresh();
   }
 
-  document.fonts.ready.then(() => {
+  const ready = Promise.race([
+    document.fonts.ready,
+    new Promise(r => setTimeout(r, 2500))   // never strand the intro overlay
+  ]);
+  ready.then(() => {
     intro(); init();
     addEventListener('load', () => ScrollTrigger.refresh());
     setTimeout(() => ScrollTrigger.refresh(), 900);

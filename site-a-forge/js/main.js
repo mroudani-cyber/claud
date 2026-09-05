@@ -367,13 +367,29 @@
 
   /* ── boot ──────────────────────────────────────────────────────── */
   function init() {
+    if (REDUCED) {
+      // nothing is hidden by default, so simply wire up the chrome
+      manifeste_static(); navBehaviour(); countUp();
+      return;
+    }
     heroScroll(); lineReveals(); manifeste(); metiers();
     capacites(); moyens(); processus(); secteurs(); outro();
     navBehaviour(); magnets();
     ScrollTrigger.refresh();
   }
 
-  document.fonts.ready.then(() => {
+  // reduced motion still needs the manifesto split so the copy reads normally
+  function manifeste_static() {
+    const el = q('#scrubText');
+    if (el) el.innerHTML = el.textContent.trim().split(/\s+/)
+      .map(w => `<span class="w" style="opacity:1">${w}</span>`).join(' ');
+  }
+
+  const ready = Promise.race([
+    document.fonts.ready,
+    new Promise(r => setTimeout(r, 2500))   // never strand the preloader
+  ]);
+  ready.then(() => {
     bootLoader();
     init();
     // re-measure once layout has fully settled (fonts, images)
