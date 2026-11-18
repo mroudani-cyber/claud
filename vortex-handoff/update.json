@@ -1,0 +1,8 @@
+{
+  "VortexRealm": {
+    "version": "3.10.0",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/VortexRealm-3.10.0.jar",
+    "sha256": "cabf190334eebca4da434f356ca04e0bd1d9c49847de1e88008bac2ec32be465",
+    "notes": "8 new detailed arenas (castle, palace, colosseum, plazas, gothic town) replace the old colosseums; invisible walls on every arena incl. FFA and vanilla maps and after every rebuild; /pvpadmin regenerate; SMP nether and end are backed up"
+  }
+}
