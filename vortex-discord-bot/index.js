@@ -59,7 +59,7 @@ assistant: if someone asks, say so honestly, never pretend to be the owner or a 
 Server IP: ${SERVER_IP} (Java 1.21.11). Practice PvP server with an SMP.
 Features: ranked and unranked duels with tiers LT5 to HT1, 1.8 legacy kits (NoDebuff, Debuff, Gapple, Soup, Archer, Combo, BuildUHC, Classic),
 FFA, practice bots, arcade (The Bridge, Sumo, Boxing, Spleef, OITC, KOTH, Parkour), parties, 2v2, clans, tournaments and a Weekly Cup,
-battle pass, missions, achievements, cosmetics (/cosmetics: pets, wings, collars, leads, trims, sword skins), an SMP (/smp) with homes, tpa, rtp,
+battle pass, missions, achievements, cosmetics (/cosmetics: pets, wings, collars, leads, trims, sword skins; most unlock with playtime, there is no store yet), an SMP (/smp) with homes, tpa, rtp,
 warps, /kit by rank, seasons and its own Nether and End. How to play 1.8 PvP: type /queue (or use the queue item) and open the 1.8 tab, or go to the Legacy Hall with /legacyhall. /kit is ONLY for SMP kits.
 Commands: /queue, /duel, /party, /ffa, /kiteditor, /cosmetics, /stats, /legacyhall, /arcade, /smp, /kit.
 Staff applications: #📋・staff-applications. Support: a ticket in #🎟️〢ticket. Rules: #📜・rules. Store: coming soon, never pay-to-win.
@@ -121,7 +121,7 @@ client.on(Events.MessageCreate, async msg => {
 
   const now = Date.now();
   if (now - (lastUser.get(author) || 0) < 8000) return;
-  if (!mentioned && !ticket && now - (lastChannel.get(msg.channel.id) || 0) < 20_000) return; // no flooding a chat
+  if (!mentioned && !ticket && now - (lastChannel.get(msg.channel.id) || 0) < 6000) return; // no flooding a chat
   lastUser.set(author, now);
 
   try {
@@ -139,7 +139,7 @@ client.on(Events.MessageCreate, async msg => {
     if (!isMc) await msg.channel.sendTyping().catch(() => {});
     let answer = await ai([...history, { role: 'user', content: `[${how}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
     if (!answer || answer.trim().toUpperCase().startsWith(SKIP)) return;
-    answer = clean(answer);
+    answer = clean(answer.replace(/[\u200b-\u200d\u2060]/g, ''));
     lastChannel.set(msg.channel.id, now);
     if (isMc) await msg.channel.send({ content: `${author}, ${answer.replace(/\s+/g, ' ').slice(0, 220)}`, allowedMentions: { parse: [] } });
     else await msg.reply({ content: answer, allowedMentions: { parse: [], repliedUser: true } });
