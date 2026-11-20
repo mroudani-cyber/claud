@@ -12,7 +12,11 @@ const TOKEN = process.env.DISCORD_TOKEN;
 const GUILD_ID = process.env.GUILD_ID || '1559180932592963586';
 // AI provider: any OpenAI-compatible chat API (default: cent-ai.dev, model hy4). Set these in the host's Environment.
 const AI_KEY = process.env.AI_API_KEY;
-const AI_URL = (process.env.AI_BASE_URL || 'https://cent-ai.dev/v1').replace(/\/+$/, '') + '/chat/completions';
+let AI_URL = (process.env.AI_BASE_URL || 'https://cent-ai.dev/v1').replace(/\/+$/, '') + '/chat/completions';
+// tried at startup until one answers with JSON (the provider's docs give the real one; this finds it on its own)
+const AI_CANDIDATES = [process.env.AI_BASE_URL, 'https://api.cent-ai.dev/v1', 'https://cent-ai.dev/api/v1', 'https://api.cent-ai.dev',
+  'https://cent-ai.dev/api', 'https://cent-ai.dev/v1', 'https://api.cent-ai.dev/openai/v1', 'https://cent-ai.dev/api/openai/v1']
+  .filter(Boolean).map(u => u.replace(/\/+$/, '') + '/chat/completions');
 const AI_MODEL = process.env.AI_MODEL || 'hy4';
 const COLOR = 0x8B5CF6;
 const SERVER_IP = process.env.SERVER_IP || 'vortexsmps.playwithbao.com';
@@ -103,7 +107,9 @@ async function ai(messages, maxTokens = 400, sys = system()) {
     headers: { 'Authorization': `Bearer ${AI_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: AI_MODEL, messages: [{ role: 'system', content: sys }, ...messages], max_tokens: maxTokens, temperature: 0.3 }),
   });
-  const j = await r.json();
+  const raw = await r.text();
+  let j;
+  try { j = JSON.parse(raw); } catch { throw new Error(`HTTP ${r.status}, not JSON (wrong address?): ${raw.slice(0, 80).replace(/\s+/g, ' ')}`); }
   if (r.status === 429 && !ai.retried) {
     const wait = Math.min(8, parseFloat((j?.error?.message || '').match(/try again in ([\d.]+)s/)?.[1] || '6')) * 1000 + 500;
     await new Promise(res => setTimeout(res, wait));
@@ -198,6 +204,22 @@ client.on(Events.MessageCreate, async msg => {
   }
 });
 
+// startup: find the provider address that really answers, and say which one in the console
+async function findAiEndpoint() {
+  for (const url of [...new Set(AI_CANDIDATES)]) {
+    AI_URL = url;
+    try {
+      const t = await ai([{ role: 'user', content: 'Reply with just: OK' }], 20, 'You are a test.');
+      console.log(`AI OK -> ${url} (model ${AI_MODEL}): ${t || '(empty reply)'}`);
+      console.log(`Tip: set AI_BASE_URL=${url.replace(/\/chat\/completions$/, '')} in Environment to skip this check.`);
+      return;
+    } catch (e) {
+      console.log(`AI try ${url}: ${e.message}`);
+    }
+  }
+  console.error('AI: none of the addresses worked. Find the API base URL and model name on cent-ai.dev (Docs/API page), set AI_BASE_URL and AI_MODEL, restart.');
+}
+
 // ------------------------------------------------------------------ daily learning
 // Once a day: read the last day of staff/owner messages and learn the facts they stated. Members' messages are only used
 // to learn which questions are common (never as facts), so nobody can teach the bot lies.
@@ -283,9 +305,7 @@ client.once(Events.ClientReady, async () => {
   tickTimers();
   setInterval(learnDaily, 3600_000);
   refreshInfo(); setInterval(refreshInfo, 30 * 60_000);
-  ai([{ role: 'user', content: 'Reply with just: OK' }], 20, 'You are a test.')
-    .then(t => console.log(`AI test (${AI_MODEL} at ${AI_URL}): ${t || '(empty reply)'}`))
-    .catch(e => console.error(`AI test FAILED (${AI_MODEL} at ${AI_URL}): ${e.message} -> check AI_BASE_URL / AI_MODEL / AI_API_KEY`));
+  findAiEndpoint();
   setTimeout(learnDaily, 60_000);
 });
 
