@@ -10,14 +10,14 @@ const {
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const GUILD_ID = process.env.GUILD_ID || '1559180932592963586';
-// AI provider: any OpenAI-compatible chat API (default: cent-ai.dev, model hy4). Set these in the host's Environment.
-const AI_KEY = process.env.AI_API_KEY;
-let AI_URL = (process.env.AI_BASE_URL || 'https://cent-ai.dev/v1').replace(/\/+$/, '') + '/chat/completions';
-// tried at startup until one answers with JSON (the provider's docs give the real one; this finds it on its own)
-const AI_CANDIDATES = [process.env.AI_BASE_URL, 'https://api.cent-ai.dev/v1', 'https://cent-ai.dev/api/v1', 'https://api.cent-ai.dev',
-  'https://cent-ai.dev/api', 'https://cent-ai.dev/v1', 'https://api.cent-ai.dev/openai/v1', 'https://cent-ai.dev/api/openai/v1']
-  .filter(Boolean).map(u => u.replace(/\/+$/, '') + '/chat/completions');
-const AI_MODEL = process.env.AI_MODEL || 'hy4';
+// AI provider: OpenRouter (https://openrouter.ai), free models. Set AI_API_KEY (sk-or-...) in the host's Environment.
+// AI_MODEL is optional: without it the bot picks a working free model by itself at startup.
+const AI_KEY = process.env.AI_API_KEY || process.env.OPENROUTER_API_KEY;
+const AI_URL = (process.env.AI_BASE_URL || 'https://openrouter.ai/api/v1').replace(/\/+$/, '') + '/chat/completions';
+let AI_MODEL = process.env.AI_MODEL || '';
+let AI_FALLBACKS = [];
+// preferred free models, best first (only the ones OpenRouter really lists as free are used)
+const PREFER = ['llama-3.3-70b', 'deepseek-chat', 'deepseek-v3', 'qwen3', 'qwen-2.5-72b', 'gemini', 'mistral-small', 'gemma-3-27b', 'llama-4', 'gpt-oss'];
 const COLOR = 0x8B5CF6;
 const SERVER_IP = process.env.SERVER_IP || 'vortexsmps.playwithbao.com';
 const STAFF_ROLES = (process.env.STAFF_ROLE_IDS || [
@@ -104,12 +104,19 @@ async function ai(messages, maxTokens = 400, sys = system()) {
   if (!AI_KEY) return 'The AI is not set up yet (no AI_API_KEY).';
   const r = await fetch(AI_URL, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${AI_KEY}`, 'Content-Type': 'application/json' },
+    headers: { 'Authorization': `Bearer ${AI_KEY}`, 'Content-Type': 'application/json', 'HTTP-Referer': 'https://discord.gg/vortexrealm', 'X-Title': 'Vortex Realm Discord' },
     body: JSON.stringify({ model: AI_MODEL, messages: [{ role: 'system', content: sys }, ...messages], max_tokens: maxTokens, temperature: 0.3 }),
   });
   const raw = await r.text();
   let j;
   try { j = JSON.parse(raw); } catch { throw new Error(`HTTP ${r.status}, not JSON (wrong address?): ${raw.slice(0, 80).replace(/\s+/g, ' ')}`); }
+  if ((r.status === 429 || r.status >= 500 || r.status === 404) && AI_FALLBACKS.length && !ai.switched) {
+    const next = AI_FALLBACKS.shift();
+    AI_FALLBACKS.push(AI_MODEL);
+    console.log(`AI ${AI_MODEL} -> HTTP ${r.status}, switching to ${next}`);
+    AI_MODEL = next;
+    ai.switched = true; try { return await ai(messages, maxTokens, sys); } finally { ai.switched = false; }
+  }
   if (r.status === 429 && !ai.retried) {
     const wait = Math.min(8, parseFloat((j?.error?.message || '').match(/try again in ([\d.]+)s/)?.[1] || '6')) * 1000 + 500;
     await new Promise(res => setTimeout(res, wait));
@@ -204,20 +211,37 @@ client.on(Events.MessageCreate, async msg => {
   }
 });
 
-// startup: find the provider address that really answers, and say which one in the console
+// startup: pick a free OpenRouter model that really answers (or check AI_MODEL), and say which one in the console
 async function findAiEndpoint() {
-  for (const url of [...new Set(AI_CANDIDATES)]) {
-    AI_URL = url;
+  if (!AI_KEY) { console.error('AI: set AI_API_KEY (your OpenRouter key, sk-or-...) in Environment.'); return; }
+  let free = [];
+  try {
+    const r = await fetch('https://openrouter.ai/api/v1/models');
+    const j = await r.json();
+    free = (j.data || []).map(m => m.id).filter(id => id.endsWith(':free'));
+  } catch (e) { console.error('AI: could not read the OpenRouter model list:', e.message); }
+  const rank = id => { const i = PREFER.findIndex(p => id.includes(p)); return i < 0 ? 99 : i; };
+  free.sort((x, y) => rank(x) - rank(y));
+  const tryList = [...new Set([AI_MODEL, ...free.slice(0, 12)].filter(Boolean))];
+  const ok = [];
+  for (const id of tryList) {
+    AI_MODEL = id;
     try {
       const t = await ai([{ role: 'user', content: 'Reply with just: OK' }], 20, 'You are a test.');
-      console.log(`AI OK -> ${url} (model ${AI_MODEL}): ${t || '(empty reply)'}`);
-      console.log(`Tip: set AI_BASE_URL=${url.replace(/\/chat\/completions$/, '')} in Environment to skip this check.`);
-      return;
+      console.log(`AI OK -> ${id}: ${t || '(empty reply)'}`);
+      ok.push(id);
+      if (ok.length >= 3) break;
     } catch (e) {
-      console.log(`AI try ${url}: ${e.message}`);
+      console.log(`AI try ${id}: ${e.message}`);
     }
   }
-  console.error('AI: none of the addresses worked. Find the API base URL and model name on cent-ai.dev (Docs/API page), set AI_BASE_URL and AI_MODEL, restart.');
+  if (!ok.length) {
+    console.error('AI: no free model answered. Check AI_API_KEY (OpenRouter key) or set AI_MODEL to a model from openrouter.ai/models.');
+    return;
+  }
+  AI_MODEL = ok[0];
+  AI_FALLBACKS = ok.slice(1);
+  console.log(`AI using ${AI_MODEL}` + (AI_FALLBACKS.length ? ` (backups: ${AI_FALLBACKS.join(', ')})` : ''));
 }
 
 // ------------------------------------------------------------------ daily learning
