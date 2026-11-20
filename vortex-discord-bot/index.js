@@ -45,7 +45,7 @@ const embed = (title, desc) => new EmbedBuilder().setColor(COLOR).setTitle(title
 // ------------------------------------------------------------------ AI
 const OWNER_ID = process.env.OWNER_ID || '1216388025727324320';
 // public chats the assistant reads and answers on its own (when a reply is useful)
-const CHAT_CHANNELS = (process.env.CHAT_CHANNELS || '💬・general,🔍・questions,🌍・smp-chat,⚔️・duels-lfg,🤖・bot-commands').split(',');
+const CHAT_CHANNELS = (process.env.CHAT_CHANNELS || '💬・general,🔍・questions,🌍・smp-chat,⚔️・duels-lfg,🤖・bot-commands,📷・media,🎬・clips').split(',');
 const MC_CHAT = process.env.MC_CHAT_CHANNEL || '💬・mc-chat'; // DiscordSRV chat: "Player » message"
 const MC_BOT = process.env.MC_CHAT_BOT || 'McChatTheBot';
 const KNOW_FILE = path.join(__dirname, 'knowledge.json');
@@ -82,6 +82,14 @@ async function ai(messages, maxTokens = 400, sys = system()) {
   return (j.choices?.[0]?.message?.content || '').trim().slice(0, 1900);
 }
 const SKIP = 'SKIP';
+const MOODS = [
+  'professional and polished, like a server manager',
+  'friendly and hyped, lots of energy and emojis',
+  'playfully creepy: calm, mysterious, "I see everything in the logs 👁️" vibes (spooky fun, never threatening, never about real personal info)',
+  'savage but light rage-bait, roasting their PvP skills in a fun way (no insults about real life, no slurs)',
+  'dramatic, like a movie narrator',
+  'chill and funny, short one-liner',
+];
 const clean = s => s.replace(/@(everyone|here)/g, '@​$1');
 
 // the owner or staff spoke in this channel in the last 10 minutes -> let them handle it
@@ -103,7 +111,6 @@ client.on(Events.MessageCreate, async msg => {
   }
   if (!msg.author.bot && (msg.author.id === OWNER_ID || isStaff(msg.member))) {
     humanActive.set(msg.channel.id, Date.now());
-    if (!msg.mentions.has(client.user)) return; // staff talk is not for the bot unless they ping it
   }
 
   let author = msg.author.username, text = msg.content;
@@ -112,16 +119,16 @@ client.on(Events.MessageCreate, async msg => {
     if (!m) return; // joins, leaves, deaths
     [, author, text] = m;
   }
-  const mentioned = msg.mentions.has(client.user) || /\b(vortex ?(ai|bot|assistant|manager))\b/i.test(text);
+  const mentioned = msg.mentions.has(client.user) || msg.mentions.roles.some(r => r.tags?.botId === client.user.id) || /\b(vortex ?(ai|bot|assistant|manager))\b/i.test(text);
   const ticket = data.tickets[msg.channel.id] || chName.startsWith('ticket-');
   const chat = CHAT_CHANNELS.includes(chName) || isMc;
   if (!mentioned && !ticket && !chat) return;
   if (ticket && data.tickets[msg.channel.id]?.aiOff) return;
-  if (!mentioned && staffHere(msg.channel.id)) return;
+  
 
   const now = Date.now();
   if (now - (lastUser.get(author) || 0) < 8000) return;
-  if (!mentioned && !ticket && now - (lastChannel.get(msg.channel.id) || 0) < 6000) return; // no flooding a chat
+  if (!mentioned && !ticket && now - (lastChannel.get(msg.channel.id) || 0) < 3000) return; // no flooding a chat
   lastUser.set(author, now);
 
   try {
@@ -133,9 +140,8 @@ client.on(Events.MessageCreate, async msg => {
       });
     let how;
     if (ticket) how = 'This is a support ticket. Greet the member, help them fully, ask for the details staff will need (IGN, what happened, screenshots). For bans, refunds, reports or payments, collect the details and say staff will review it soon.';
-    else if (isMc) how = `This is in-game chat (Minecraft). Reply in ONE short line (max 25 words, no markdown). Reply only if someone asks a question, needs help, greets the server, or talks to you. Otherwise reply exactly ${SKIP}.`;
-    else if (mentioned) how = 'You were asked directly. Answer.';
-    else how = `This is a public chat. Reply only if someone asks a question about the server, needs help, is new, or talks to you. For normal chatting between members, or if unsure, reply exactly ${SKIP}.`;
+    else if (isMc) how = `This is in-game chat (Minecraft). Reply in ONE short line (max 25 words, no markdown). Always reply, in a random fun or helpful tone.`;
+    else how = `Reply to this message. Mood for this reply: ${MOODS[Math.floor(Math.random() * MOODS.length)]}. Keep it short (1-3 sentences). If they asked something real, the answer must still be correct.`;
     if (!isMc) await msg.channel.sendTyping().catch(() => {});
     let answer = await ai([...history, { role: 'user', content: `[${how}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
     if (!answer || answer.trim().toUpperCase().startsWith(SKIP)) return;
