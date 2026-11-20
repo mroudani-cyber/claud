@@ -96,7 +96,7 @@ function relevantInfo(q) {
   return scored.sort((a, b) => b.s - a.s).slice(0, 3).sort((a, b) => a.i - b.i).map(x => x.p).join('\n').slice(0, 2500);
 }
 let lastQuestion = '';
-const system = () => BASE + (SERVER_INFO ? `\n\nOFFICIAL SERVER INFO (always trust this, never contradict it, never invent beyond it; if the answer is not here, say staff will help):\n${relevantInfo(lastQuestion)}` : '')
+const system = () => BASE + (ONLINE.at ? `\nLIVE STATUS (updated ${Math.round((Date.now() - ONLINE.at) / 60000)} min ago): server ${ONLINE.up ? `online, ${ONLINE.count} players playing right now` : 'offline'}.` : '') + (SERVER_INFO ? `\n\nOFFICIAL SERVER INFO (always trust this, never contradict it, never invent beyond it; if the answer is not here, say staff will help):\n${relevantInfo(lastQuestion)}` : '')
   + (know.facts.length ? `\nThings the owner and staff have said (trust these):\n- ${know.facts.slice(-40).join('\n- ')}` : '')
   + (know.questions.length ? `\nQuestions players often ask: ${know.questions.slice(-15).join('; ')}` : '');
 
@@ -173,7 +173,7 @@ client.on(Events.MessageCreate, async msg => {
   if (!mentioned && !ticket && !chat) return;
   if (ticket && data.tickets[msg.channel.id]?.aiOff) return;
   if (/\b(ip|server ?address|how (do i|to|can i) (join|play))\b/i.test(text) && text.length < 120) {
-    const ipText = `The IP is **${SERVER_IP}** (Java 1.21.11). First join: \`/register <password> <password>\`, then \`/login <password>\`.`;
+    const ipText = `The IP is **${SERVER_IP}** (Java 1.21.11)${ONLINE.at && ONLINE.up ? `, ${ONLINE.count} playing right now` : ''}. First join: \`/register <password> <password>\`, then \`/login <password>\`.`;
     if (isMc) return msg.channel.send({ content: `${author}, the IP is ${SERVER_IP} (Java 1.21.11)`, allowedMentions: { parse: [] } }).catch(() => {});
     if (now0() - (lastUser.get(author) || 0) < 8000) return;
     lastUser.set(author, now0());
@@ -242,6 +242,22 @@ async function findAiEndpoint() {
   AI_MODEL = ok[0];
   AI_FALLBACKS = ok.slice(1);
   console.log(`AI using ${AI_MODEL}` + (AI_FALLBACKS.length ? ` (backups: ${AI_FALLBACKS.join(', ')})` : ''));
+}
+
+// ------------------------------------------------------------------ live player count
+// Every 6 minutes: read the Minecraft server's public status and rename the status channel ("🟢 Online: 5").
+// Discord allows 2 renames per 10 minutes per channel, so 6 minutes is the safe minimum.
+const STATUS_CHANNEL = process.env.STATUS_CHANNEL_ID || '1573414369725907016';
+let ONLINE = { up: false, count: 0, max: 0, at: 0 };
+async function updateStatus() {
+  try {
+    const r = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}`, { headers: { 'User-Agent': 'VortexRealmDiscordBot/1.0' } });
+    const j = await r.json();
+    ONLINE = { up: !!j.online, count: j.players?.online ?? 0, max: j.players?.max ?? 0, at: Date.now() };
+    const name = ONLINE.up ? `🟢 Online: ${ONLINE.count}` : '🔴 Server offline';
+    const ch = await client.channels.fetch(STATUS_CHANNEL).catch(() => null);
+    if (ch && ch.name !== name) await ch.setName(name).catch(e => console.error('status rename', e.message));
+  } catch (e) { console.error('status', e.message); }
 }
 
 // ------------------------------------------------------------------ daily learning
@@ -329,6 +345,7 @@ client.once(Events.ClientReady, async () => {
   tickTimers();
   setInterval(learnDaily, 3600_000);
   refreshInfo(); setInterval(refreshInfo, 30 * 60_000);
+  updateStatus(); setInterval(updateStatus, 6 * 60_000);
   findAiEndpoint();
   setTimeout(learnDaily, 60_000);
 });
