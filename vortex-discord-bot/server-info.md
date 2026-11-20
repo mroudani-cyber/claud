@@ -40,7 +40,7 @@
 - Most cosmetics unlock with playtime. There is no store yet.
 
 ## Community & events
-- 🏆 **1.8 NoDebuff Tournament: Saturday 21 November 2026, 19:00 UTC.** 1v1 single elimination, final is first to 2. Sign up by reacting ⚔️ on the post in #🏆・tournaments. Be online 10 minutes early. Prize: Tournament Champion title + exclusive cosmetic.
+- ⚔️ **Spear Mace Tournament: Sunday 22 November 2026, 20:00 UTC.** 1v1 single elimination with the Spear Mace kit, final is first to 2. Sign up by reacting with the sword on the post in #🏆・tournaments. Be online 10 minutes early. Prize: Champion title + exclusive cosmetic. (The Saturday 1.8 NoDebuff tournament was cancelled and replaced by this one.)
 - 🌍 **SMP Build Battle: Sunday 22 November 2026, 18:00 UTC.** Build the best base in 1 hour, post screenshots in #🏠・smp-builds.
 - Events also show in Discord's Events tab. Polls in #📊・polls, giveaways in #🎉・giveaways.
 - Suggestions: #💡・suggestions. Bug reports: #🐛・bug-reports (exploits/dupes go in a ticket, not public).
