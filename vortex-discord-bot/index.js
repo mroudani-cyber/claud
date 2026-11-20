@@ -10,8 +10,10 @@ const {
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const GUILD_ID = process.env.GUILD_ID || '1559180932592963586';
-const GROQ_KEY = process.env.GROQ_API_KEY;
-const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+// AI provider: any OpenAI-compatible chat API (default: cent-ai.dev, model hy4). Set these in the host's Environment.
+const AI_KEY = process.env.AI_API_KEY;
+const AI_URL = (process.env.AI_BASE_URL || 'https://cent-ai.dev/v1').replace(/\/+$/, '') + '/chat/completions';
+const AI_MODEL = process.env.AI_MODEL || 'hy4';
 const COLOR = 0x8B5CF6;
 const SERVER_IP = process.env.SERVER_IP || 'vortexsmps.playwithbao.com';
 const STAFF_ROLES = (process.env.STAFF_ROLE_IDS || [
@@ -77,7 +79,7 @@ async function refreshInfo() {
     if (r.ok) { const t = await r.text(); if (t.length > 200 && t !== SERVER_INFO) { SERVER_INFO = t; fs.writeFileSync(path.join(__dirname, 'server-info.md'), t); console.log('server info updated'); } }
   } catch (e) { console.error('info', e.message); }
 }
-// only send the parts of the server info that match the question (keeps every request small for Groq's free limits)
+// only send the parts of the server info that match the question (keeps every request small and fast)
 function relevantInfo(q) {
   if (!SERVER_INFO) return '';
   const parts = SERVER_INFO.split(/\n(?=##+ )/);
@@ -95,11 +97,11 @@ const system = () => BASE + (SERVER_INFO ? `\n\nOFFICIAL SERVER INFO (always tru
   + (know.questions.length ? `\nQuestions players often ask: ${know.questions.slice(-15).join('; ')}` : '');
 
 async function ai(messages, maxTokens = 400, sys = system()) {
-  if (!GROQ_KEY) return 'The AI is not set up yet (no GROQ_API_KEY).';
-  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  if (!AI_KEY) return 'The AI is not set up yet (no AI_API_KEY).';
+  const r = await fetch(AI_URL, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${GROQ_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: GROQ_MODEL, messages: [{ role: 'system', content: sys }, ...messages], max_tokens: maxTokens, temperature: 0.3, ...(GROQ_MODEL.startsWith('openai/gpt-oss') ? { reasoning_effort: 'low' } : {}) }),
+    headers: { 'Authorization': `Bearer ${AI_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: AI_MODEL, messages: [{ role: 'system', content: sys }, ...messages], max_tokens: maxTokens, temperature: 0.3 }),
   });
   const j = await r.json();
   if (r.status === 429 && !ai.retried) {
@@ -200,7 +202,7 @@ client.on(Events.MessageCreate, async msg => {
 // Once a day: read the last day of staff/owner messages and learn the facts they stated. Members' messages are only used
 // to learn which questions are common (never as facts), so nobody can teach the bot lies.
 async function learnDaily() {
-  if (!GROQ_KEY || Date.now() - know.lastLearn < 23 * 3600_000) return;
+  if (!AI_KEY || Date.now() - know.lastLearn < 23 * 3600_000) return;
   know.lastLearn = Date.now(); saveKnow();
   try {
     const guild = await client.guilds.fetch(GUILD_ID);
@@ -281,6 +283,9 @@ client.once(Events.ClientReady, async () => {
   tickTimers();
   setInterval(learnDaily, 3600_000);
   refreshInfo(); setInterval(refreshInfo, 30 * 60_000);
+  ai([{ role: 'user', content: 'Reply with just: OK' }], 20, 'You are a test.')
+    .then(t => console.log(`AI test (${AI_MODEL} at ${AI_URL}): ${t || '(empty reply)'}`))
+    .catch(e => console.error(`AI test FAILED (${AI_MODEL} at ${AI_URL}): ${e.message} -> check AI_BASE_URL / AI_MODEL / AI_API_KEY`));
   setTimeout(learnDaily, 60_000);
 });
 

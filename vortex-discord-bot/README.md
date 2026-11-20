@@ -1,11 +1,11 @@
 # Vortex Discord Bot
 
-A 24/7 assistant for the Vortex Realm Discord: AI help (Groq), tickets with transcripts, polls, giveaways and
+A 24/7 assistant for the Vortex Realm Discord: AI help (cent-ai.dev, model hy4), tickets with transcripts, polls, giveaways and
 competitions, tournaments with brackets, self-roles, staff role changes, welcome messages and announcements.
 
 ## Run it
 1. Discord Developer Portal → your app → **Bot** → turn on **Server Members Intent** and **Message Content Intent**.
-2. Copy `.env.example` to `.env` and fill in a **new** bot token and a **new** Groq key.
+2. Copy `.env.example` to `.env` and fill in a **new** bot token and your cent-ai key (`AI_API_KEY`).
 3. `npm install` then `npm start` (Node 18 or newer). Keep it running on a host that is always on.
 
 ## Commands
