@@ -40,7 +40,7 @@ try { data = { ...data, ...JSON.parse(fs.readFileSync(DATA_FILE, 'utf8')) }; } c
 const save = () => fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildVoiceStates],
   partials: [Partials.Channel],
 });
 
@@ -283,6 +283,65 @@ async function updateStatus() {
   } catch (e) { console.error('status', e.message); }
 }
 
+// ------------------------------------------------------------------ voice: a natural human-like voice (Microsoft Edge neural TTS, free)
+// /join, /leave, /say (staff), /talk (anyone). Greets people who join the voice channel the bot is in.
+process.env.FFMPEG_PATH = process.env.FFMPEG_PATH || require('ffmpeg-static');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, StreamType, getVoiceConnection } = require('@discordjs/voice');
+const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
+// very natural voices: en-US-AndrewMultilingualNeural (male), en-US-AvaMultilingualNeural (female), en-US-EmmaMultilingualNeural
+const VOICE = process.env.VOICE_NAME || 'en-US-AndrewMultilingualNeural';
+const player = createAudioPlayer();
+let voiceConn = null;
+let voiceChannelId = null;
+const speakQueue = [];
+let speaking = false;
+
+function voiceJoin(ch) {
+  voiceConn = joinVoiceChannel({ channelId: ch.id, guildId: ch.guild.id, adapterCreator: ch.guild.voiceAdapterCreator, selfDeaf: false });
+  voiceConn.subscribe(player);
+  voiceChannelId = ch.id;
+}
+function voiceLeave() {
+  const c = voiceConn || getVoiceConnection(GUILD_ID);
+  if (c) c.destroy();
+  voiceConn = null; voiceChannelId = null; speakQueue.length = 0;
+}
+async function speak(text) {
+  if (!text) return;
+  speakQueue.push(text);
+  if (speaking) return;
+  speaking = true;
+  while (speakQueue.length && voiceConn) {
+    const t = speakQueue.shift();
+    try {
+      const tts = new MsEdgeTTS();
+      await tts.setMetadata(VOICE, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
+      const out = tts.toStream(t.replace(/[<>&]/g, ' '));
+      const stream = out.audioStream || out;
+      player.play(createAudioResource(stream, { inputType: StreamType.Arbitrary }));
+      await new Promise(res => {
+        const done = () => { player.off(AudioPlayerStatus.Idle, done); res(); };
+        player.on(AudioPlayerStatus.Idle, done);
+        setTimeout(done, 60_000);
+      });
+    } catch (e) { console.error('voice', e.message); }
+  }
+  speaking = false;
+}
+// greet people who join the bot's voice channel
+client.on(Events.VoiceStateUpdate, (before, after) => {
+  if (!voiceChannelId || after.member?.user?.bot) return;
+  if (after.channelId === voiceChannelId && before.channelId !== voiceChannelId) {
+    speak(`Welcome ${after.member.displayName}.`);
+  }
+  // leave when the channel is empty
+  const ch = after.guild.channels.cache.get(voiceChannelId);
+  if (ch && ch.members.filter(m => !m.user.bot).size === 0) setTimeout(() => {
+    const c2 = after.guild.channels.cache.get(voiceChannelId);
+    if (c2 && c2.members.filter(m => !m.user.bot).size === 0) voiceLeave();
+  }, 60_000);
+});
+
 // ------------------------------------------------------------------ daily learning
 // Once a day: read the last day of staff/owner messages and learn the facts they stated. Members' messages are only used
 // to learn which questions are common (never as facts), so nobody can teach the bot lies.
@@ -327,6 +386,12 @@ client.on(Events.GuildMemberAdd, async member => {
 const commands = [
   new SlashCommandBuilder().setName('ask').setDescription('Ask the Vortex Assistant').addStringOption(o => o.setName('question').setDescription('Your question').setRequired(true)),
   new SlashCommandBuilder().setName('ip').setDescription('Server IP and how to join'),
+  new SlashCommandBuilder().setName('join').setDescription('The AI joins your voice channel (staff)'),
+  new SlashCommandBuilder().setName('leave').setDescription('The AI leaves the voice channel (staff)'),
+  new SlashCommandBuilder().setName('say').setDescription('The AI says something out loud in voice (staff)')
+    .addStringOption(o => o.setName('text').setDescription('What to say').setRequired(true)),
+  new SlashCommandBuilder().setName('talk').setDescription('Ask the AI something, it answers out loud in voice')
+    .addStringOption(o => o.setName('question').setDescription('Your question').setRequired(true)),
   new SlashCommandBuilder().setName('ticket-panel').setDescription('Post the ticket panel (staff)'),
   new SlashCommandBuilder().setName('roles-panel').setDescription('Post the self-roles panel (staff)'),
   new SlashCommandBuilder().setName('poll').setDescription('Start a poll')
@@ -397,6 +462,42 @@ async function onCommand(i) {
       await i.deferReply();
       const a = await ai([{ role: 'user', content: `${i.user.username}: ${i.options.getString('question')}` }]);
       return i.editReply({ content: clean(a || 'Sorry, I have no answer for that.'), allowedMentions: { parse: [] } });
+    }
+    case 'join': {
+      if (await staffOnly(i)) return;
+      const ch = i.member?.voice?.channel;
+      if (!ch) return i.reply({ content: 'Join a voice channel first.', ephemeral: true });
+      voiceJoin(ch);
+      await i.reply({ content: `Joined **${ch.name}**.`, ephemeral: true });
+      return speak(`Hello ${i.member.displayName}. Vortex Realm AI is here.`);
+    }
+    case 'leave': {
+      if (await staffOnly(i)) return;
+      voiceLeave();
+      return i.reply({ content: 'Left the voice channel.', ephemeral: true });
+    }
+    case 'say': {
+      if (await staffOnly(i)) return;
+      if (!voiceConn) {
+        const ch = i.member?.voice?.channel;
+        if (!ch) return i.reply({ content: 'Join a voice channel first, or use /join.', ephemeral: true });
+        voiceJoin(ch);
+      }
+      await i.reply({ content: '🔊 Speaking...', ephemeral: true });
+      return speak(i.options.getString('text').slice(0, 600));
+    }
+    case 'talk': {
+      if (!voiceConn) {
+        const ch = i.member?.voice?.channel;
+        if (!ch) return i.reply({ content: 'Join a voice channel first.', ephemeral: true });
+        voiceJoin(ch);
+      }
+      await i.deferReply();
+      const q = i.options.getString('question');
+      const a = (await ai([{ role: 'user', content: `${i.user.username} asks out loud: ${q}\n(Answer in 1-3 short spoken sentences, no emojis, no markdown.)` }], 200).catch(() => '')) || 'Sorry, I could not think of an answer.';
+      const clean2 = a.replace(/<a?:\w+:\d+>/g, '').replace(/[*_`#>]/g, '').trim();
+      await i.editReply({ content: `🔊 **${i.user.username}:** ${q}\n**AI:** ${clean2}`, allowedMentions: { parse: [] } });
+      return speak(clean2);
     }
     case 'ip':
       return i.reply({ embeds: [embed('How to join', `**IP:** \`${SERVER_IP}\`\n**Version:** Java 1.21.11\n\nAdd the server in Multiplayer, join, and type \`/queue\` to play!`)] });
