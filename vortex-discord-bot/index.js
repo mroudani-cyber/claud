@@ -244,19 +244,42 @@ async function findAiEndpoint() {
   console.log(`AI using ${AI_MODEL}` + (AI_FALLBACKS.length ? ` (backups: ${AI_FALLBACKS.join(', ')})` : ''));
 }
 
-// ------------------------------------------------------------------ live player count
-// Every 6 minutes: read the Minecraft server's public status and rename the status channel ("🟢 Online: 5").
-// Discord allows 2 renames per 10 minutes per channel, so 6 minutes is the safe minimum.
-const STATUS_CHANNEL = process.env.STATUS_CHANNEL_ID || '1573414369725907016';
-let ONLINE = { up: false, count: 0, max: 0, at: 0 };
+// ------------------------------------------------------------------ live server status panel
+// One message in #server-status, edited every 2 minutes: online/offline, player count and a card with the skin of
+// every player online (up to 9). Editing a message is not rate-limited like renaming a channel.
+const STATUS_CHANNEL = process.env.STATUS_CHANNEL_ID || '1559185976545513563';
+let ONLINE = { up: false, count: 0, max: 0, names: [], at: 0 };
 async function updateStatus() {
   try {
     const r = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}`, { headers: { 'User-Agent': 'VortexRealmDiscordBot/1.0' } });
     const j = await r.json();
-    ONLINE = { up: !!j.online, count: j.players?.online ?? 0, max: j.players?.max ?? 0, at: Date.now() };
-    const name = ONLINE.up ? `🟢 Online: ${ONLINE.count}` : '🔴 Server offline';
+    const names = (j.players?.list || []).map(p => p.name || p).filter(n => /^[A-Za-z0-9_]{2,16}$/.test(n));
+    ONLINE = { up: !!j.online, count: j.players?.online ?? 0, max: j.players?.max ?? 0, names, at: Date.now() };
     const ch = await client.channels.fetch(STATUS_CHANNEL).catch(() => null);
-    if (ch && ch.name !== name) await ch.setName(name).catch(e => console.error('status rename', e.message));
+    if (!ch) return;
+    const ts = Math.floor(Date.now() / 1000);
+    const head = new EmbedBuilder()
+      .setColor(ONLINE.up ? 0x3DBE4B : 0xE5484D)
+      .setAuthor({ name: 'VORTEX REALM • LIVE SERVER STATUS' })
+      .setTitle(ONLINE.up ? `🟢  ONLINE  •  ${ONLINE.count} / ${ONLINE.max} players` : '🔴  OFFLINE')
+      .setDescription(
+        `**IP:** \`${SERVER_IP}\`\n**Version:** Java 1.21.11\n` +
+        (ONLINE.up
+          ? (ONLINE.count ? `**Playing right now:** ${names.length ? names.map(n => `\`${n}\``).join(' ') : 'hidden by the server'}` : '**Nobody online right now: be the first!**')
+          : 'The server is restarting or under maintenance. Check back in a few minutes.') +
+        `\n\n*Updated <t:${ts}:R>*`)
+      .setThumbnail('https://api.mcsrvstat.us/icon/' + SERVER_IP)
+      .setFooter({ text: 'Updates every 2 minutes' });
+    const cards = names.slice(0, 9).map(n => new EmbedBuilder()
+      .setColor(0x8B5CF6)
+      .setAuthor({ name: n, iconURL: `https://mc-heads.net/avatar/${n}/64` })
+      .setThumbnail(`https://mc-heads.net/body/${n}/120`)
+      .setDescription(`🎮 In game now`));
+    const payload = { content: '', embeds: [head, ...cards] };
+    let msg = null;
+    if (data.statusMsg) msg = await ch.messages.fetch(data.statusMsg).catch(() => null);
+    if (msg) await msg.edit(payload);
+    else { msg = await ch.send(payload); data.statusMsg = msg.id; save(); }
   } catch (e) { console.error('status', e.message); }
 }
 
@@ -345,7 +368,7 @@ client.once(Events.ClientReady, async () => {
   tickTimers();
   setInterval(learnDaily, 3600_000);
   refreshInfo(); setInterval(refreshInfo, 30 * 60_000);
-  updateStatus(); setInterval(updateStatus, 6 * 60_000);
+  updateStatus(); setInterval(updateStatus, 2 * 60_000);
   findAiEndpoint();
   setTimeout(learnDaily, 60_000);
 });
