@@ -82,6 +82,10 @@ async function ai(messages, maxTokens = 400, sys = system()) {
   return (j.choices?.[0]?.message?.content || '').trim().slice(0, 1900);
 }
 const SKIP = 'SKIP';
+const NORMAL_EMOJIS = [...'😂🤣😭💀😈👀🔥⚔️🏆💜🤖😏😎🥶🥵🤡👑💎❤️💔✨🎉🎊🙏🤝👋😤😡🤬😱😳🥺😇🙃😴🤔🫡🫠🤯😵‍💫🧠👻☠️🎃🕷️🕸️🌙⭐🌟💫⚡🌈🍿🎮🕹️🎯🏹🛡️🗡️🪓⛏️🧨💣🐉🐺🦊🐱🐶🐷🐸🐍🦇🦋🐔🍀🌋🏝️🏰🏟️🗿📈📉💯✅❌⚠️🚨🔔📢💬🗣️👏🙌💪🦾🫵👉👈🤏🤌🍕🍔🧃☕🧊🥇🥈🥉🎖️🪦⚰️🔮🧿🎭'.match(/\p{Extended_Pictographic}(\uFE0F|\u200D\p{Extended_Pictographic})*/gu)];
+let SERVER_EMOJIS = [];
+const pick = (a, n) => [...a].sort(() => Math.random() - 0.5).slice(0, n);
+const emojiHint = () => `Use a few emojis, different every time. Mix normal ones (${pick(NORMAL_EMOJIS, 18).join(' ')}) and server emojis written exactly like this: ${pick(SERVER_EMOJIS, 8).join(' ')}. Never repeat the same emoji set twice in a row.`;
 const MOODS = [
   'professional and polished, like a server manager',
   'friendly and hyped, lots of energy and emojis',
@@ -143,7 +147,7 @@ client.on(Events.MessageCreate, async msg => {
     else if (isMc) how = `This is in-game chat (Minecraft). Reply in ONE short line (max 25 words, no markdown). Always reply, in a random fun or helpful tone.`;
     else how = `Reply to this message. Mood for this reply: ${MOODS[Math.floor(Math.random() * MOODS.length)]}. Keep it short (1-3 sentences). If they asked something real, the answer must still be correct.`;
     if (!isMc) await msg.channel.sendTyping().catch(() => {});
-    let answer = await ai([...history, { role: 'user', content: `[${how}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
+    let answer = await ai([...history, { role: 'user', content: `[${how} ${isMc ? '' : emojiHint()}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
     if (!answer || answer.trim().toUpperCase().startsWith(SKIP)) return;
     answer = clean(answer.replace(/[\u200b-\u200d\u2060]/g, ''));
     lastChannel.set(msg.channel.id, now);
@@ -230,6 +234,7 @@ const commands = [
 
 client.once(Events.ClientReady, async () => {
   console.log(`Online as ${client.user.tag}`);
+  try { SERVER_EMOJIS = (await (await client.guilds.fetch(GUILD_ID)).emojis.fetch()).map(e => `${e}`); } catch { /* no emojis */ }
   client.user.setActivity(`${SERVER_IP} | /ask`);
   try {
     await new REST({ version: '10' }).setToken(TOKEN).put(Routes.applicationGuildCommands(client.user.id, GUILD_ID), { body: commands });
