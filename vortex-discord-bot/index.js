@@ -87,7 +87,7 @@ function relevantInfo(q) {
   for (let k = 0; k < words.length; k++) words[k] = words[k].length > 5 ? words[k].slice(0, words[k].length - 2) : words[k]; // crude stemming: banned -> bann, resetting -> resetti
   const df = w => lows.filter(l => l.includes(w)).length || 1;
   const scored = parts.map((p, i) => ({ p, i, s: (i <= 1 ? 0.5 : 0) + words.reduce((n, w) => n + (lows[i].includes(w) ? 1 / df(w) : 0), 0) }));
-  return scored.sort((a, b) => b.s - a.s).slice(0, 4).sort((a, b) => a.i - b.i).map(x => x.p).join('\n').slice(0, 4500);
+  return scored.sort((a, b) => b.s - a.s).slice(0, 3).sort((a, b) => a.i - b.i).map(x => x.p).join('\n').slice(0, 2500);
 }
 let lastQuestion = '';
 const system = () => BASE + (SERVER_INFO ? `\n\nOFFICIAL SERVER INFO (always trust this, never contradict it, never invent beyond it; if the answer is not here, say staff will help):\n${relevantInfo(lastQuestion)}` : '')
@@ -103,7 +103,7 @@ async function ai(messages, maxTokens = 400, sys = system()) {
   });
   const j = await r.json();
   if (r.status === 429 && !ai.retried) {
-    const wait = Math.min(15, parseFloat((j?.error?.message || '').match(/try again in ([\d.]+)s/)?.[1] || '6')) * 1000 + 500;
+    const wait = Math.min(8, parseFloat((j?.error?.message || '').match(/try again in ([\d.]+)s/)?.[1] || '6')) * 1000 + 500;
     await new Promise(res => setTimeout(res, wait));
     ai.retried = true; try { return await ai(messages, maxTokens, sys); } finally { ai.retried = false; }
   }
@@ -172,7 +172,7 @@ client.on(Events.MessageCreate, async msg => {
   lastUser.set(author, now);
 
   try {
-    const history = (await msg.channel.messages.fetch({ limit: 6 })).reverse()
+    const history = (await msg.channel.messages.fetch({ limit: 4 })).reverse()
       .filter(m => m.content)
       .map(m => {
         const mine = m.author.id === client.user.id;
@@ -184,7 +184,7 @@ client.on(Events.MessageCreate, async msg => {
     else how = `Reply to this message. Mood for this reply: ${MOODS[Math.floor(Math.random() * MOODS.length)]}. Keep it short (1-3 sentences). If they asked something real, the answer must still be correct.`;
     if (!isMc) await msg.channel.sendTyping().catch(() => {});
     lastQuestion = text;
-    let answer = await ai([...history, { role: 'user', content: `[${how} ${isMc ? '' : emojiHint()}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
+    let answer = await ai([...history, { role: 'user', content: `[${how} ${isMc ? '' : emojiHint()}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 100 : 250);
     if (!answer || answer.trim().toUpperCase().startsWith(SKIP)) return;
     answer = clean(answer.replace(/[\u200b-\u200d\u2060\uFE0F]/g, '').replace(/\p{Extended_Pictographic}/gu, '').replace(/ {2,}/g, ' ').trim());
     lastChannel.set(msg.channel.id, now);
