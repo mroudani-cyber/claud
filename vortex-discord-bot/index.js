@@ -53,7 +53,8 @@ let know = { facts: [], questions: [], lastLearn: 0 };
 try { know = { ...know, ...JSON.parse(fs.readFileSync(KNOW_FILE, 'utf8')) }; } catch { /* first start */ }
 const saveKnow = () => fs.writeFileSync(KNOW_FILE, JSON.stringify(know, null, 2));
 
-const BASE = `You are the Vortex Realm AI Manager. You look after the Vortex Realm Minecraft Discord and in-game chat
+const BASE = `Never use normal Unicode emojis (like 😂🔥); only the server emojis given to you.
+You are the Vortex Realm AI Manager. You look after the Vortex Realm Minecraft Discord and in-game chat
 when the owner and staff are away. Speak for the Vortex Realm team: professional, warm, confident, short. You are an AI
 assistant: if someone asks, say so honestly, never pretend to be the owner or a human.
 Server IP: ${SERVER_IP} (Java 1.21.11). Practice PvP server with an SMP.
@@ -82,14 +83,13 @@ async function ai(messages, maxTokens = 400, sys = system()) {
   return (j.choices?.[0]?.message?.content || '').trim().slice(0, 1900);
 }
 const SKIP = 'SKIP';
-const NORMAL_EMOJIS = [...'😂🤣😭💀😈👀🔥⚔️🏆💜🤖😏😎🥶🥵🤡👑💎❤️💔✨🎉🎊🙏🤝👋😤😡🤬😱😳🥺😇🙃😴🤔🫡🫠🤯😵‍💫🧠👻☠️🎃🕷️🕸️🌙⭐🌟💫⚡🌈🍿🎮🕹️🎯🏹🛡️🗡️🪓⛏️🧨💣🐉🐺🦊🐱🐶🐷🐸🐍🦇🦋🐔🍀🌋🏝️🏰🏟️🗿📈📉💯✅❌⚠️🚨🔔📢💬🗣️👏🙌💪🦾🫵👉👈🤏🤌🍕🍔🧃☕🧊🥇🥈🥉🎖️🪦⚰️🔮🧿🎭'.match(/\p{Extended_Pictographic}(\uFE0F|\u200D\p{Extended_Pictographic})*/gu)];
 let SERVER_EMOJIS = [];
 const pick = (a, n) => [...a].sort(() => Math.random() - 0.5).slice(0, n);
-const emojiHint = () => `Use a few emojis, different every time. Mix normal ones (${pick(NORMAL_EMOJIS, 18).join(' ')}) and server emojis written exactly like this: ${pick(SERVER_EMOJIS, 8).join(' ')}. Never repeat the same emoji set twice in a row.`;
+const emojiHint = () => SERVER_EMOJIS.length ? `Use 1-3 emojis that fit the message, ONLY from this list and written exactly as shown: ${pick(SERVER_EMOJIS, 14).join(' ')}. Never use normal Unicode emojis.` : 'Do not use emojis.';
 const MOODS = [
   'professional and polished, like a server manager',
   'friendly and hyped, lots of energy and emojis',
-  'playfully creepy: calm, mysterious, "I see everything in the logs 👁️" vibes (spooky fun, never threatening, never about real personal info)',
+  'playfully creepy: calm, mysterious, "I see everything in the logs" vibes (spooky fun, never threatening, never about real personal info)',
   'savage but light rage-bait, roasting their PvP skills in a fun way (no insults about real life, no slurs)',
   'dramatic, like a movie narrator',
   'chill and funny, short one-liner',
@@ -144,12 +144,12 @@ client.on(Events.MessageCreate, async msg => {
       });
     let how;
     if (ticket) how = 'This is a support ticket. Greet the member, help them fully, ask for the details staff will need (IGN, what happened, screenshots). For bans, refunds, reports or payments, collect the details and say staff will review it soon.';
-    else if (isMc) how = `This is in-game chat (Minecraft). Reply in ONE short line (max 25 words, no markdown). Always reply, in a random fun or helpful tone.`;
+    else if (isMc) how = `This is in-game chat (Minecraft). Reply in ONE short line (max 25 words, no markdown, no emojis). Always reply, in a random fun or helpful tone.`;
     else how = `Reply to this message. Mood for this reply: ${MOODS[Math.floor(Math.random() * MOODS.length)]}. Keep it short (1-3 sentences). If they asked something real, the answer must still be correct.`;
     if (!isMc) await msg.channel.sendTyping().catch(() => {});
     let answer = await ai([...history, { role: 'user', content: `[${how} ${isMc ? '' : emojiHint()}]\nLatest message from ${author}: ${text.slice(0, 600)}` }], isMc ? 120 : 400);
     if (!answer || answer.trim().toUpperCase().startsWith(SKIP)) return;
-    answer = clean(answer.replace(/[\u200b-\u200d\u2060]/g, ''));
+    answer = clean(answer.replace(/[\u200b-\u200d\u2060\uFE0F]/g, '').replace(/\p{Extended_Pictographic}/gu, '').replace(/ {2,}/g, ' ').trim());
     lastChannel.set(msg.channel.id, now);
     if (isMc) await msg.channel.send({ content: `${author}, ${answer.replace(/\s+/g, ' ').slice(0, 220)}`, allowedMentions: { parse: [] } });
     else await msg.reply({ content: answer, allowedMentions: { parse: [], repliedUser: true } });
