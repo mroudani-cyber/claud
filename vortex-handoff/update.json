@@ -1,0 +1,20 @@
+{
+  "PracticePvP": {
+    "version": "2.13.16",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/PracticePvP-2.13.16.jar",
+    "sha256": "71c0987d99215d4580b7d05ac3dba768c0f8b593657236fc8c067b7eabc8925e",
+    "notes": "Live server status panel on Discord: the server itself keeps one message up to date with the online count and each player's skin (set discord.status-webhook)"
+  },
+  "VortexRealm": {
+    "version": "3.13.16",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/VortexRealm-3.13.16.jar",
+    "sha256": "952422bb9398f3c8e9594d8b798cda50347dff36208f910c366238c76cea4ea2",
+    "notes": "Live server status panel on Discord: the server itself keeps one message up to date with the online count and each player's skin (set discord.status-webhook)"
+  },
+  "VortexSMP": {
+    "version": "1.6.0",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/VortexSMP-1.6.0.jar",
+    "sha256": "1b66747e5c2088dfb25f6028bc37b639e7e690569256543f1a5bd15d82ea3425",
+    "notes": "VortexSMP is now part of VortexRealm - remove this plugin"
+  }
+}
