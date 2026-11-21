@@ -39,3 +39,14 @@ Run without building: `python launcher.py`.
 4. For fully offline voice: Settings > Voice > Speech recognition = **Windows (offline)**.
 
 With both set, no API key or internet is needed.
+
+## v2.2: buzzer, better clap and mic, animated face
+
+Re-upload `lcd_display/lcd_display.ino` (the app updates itself, the Arduino does not).
+
+Extra wiring:
+- Buzzer: one leg D13, other leg GND
+- KY-037 DO -> D3 (optional, makes claps more reliable; AO stays on A0)
+
+In the app: Settings > Arduino has buzzer mode, Test buzzer, clap sensitivity and a live
+clap sensor test. Settings > Voice lets you pick the microphone, set mic sensitivity and test it.

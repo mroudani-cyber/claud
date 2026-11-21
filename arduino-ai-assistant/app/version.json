@@ -1,4 +1,4 @@
 {
-  "version": "2.1.0",
-  "notes": "Local AI with Ollama (free, offline) and offline Windows speech recognition."
+  "version": "2.2.0",
+  "notes": "Mic fixed (choose your mic, catches quiet voices, test button), buzzer sounds, clap sensor test, and an animated face."
 }
