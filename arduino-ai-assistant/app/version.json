@@ -1,4 +1,4 @@
 {
-  "version": "2.0.0",
-  "notes": "Tabbed settings (Save button fixed), themes, accent colours, personalities, voices, quick buttons, hot-room alerts, auto-updates."
+  "version": "2.1.0",
+  "notes": "Local AI with Ollama (free, offline) and offline Windows speech recognition."
 }

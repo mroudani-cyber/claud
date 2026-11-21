@@ -30,3 +30,12 @@ after a restart (no need to rebuild the exe). Bump `version.json` and
 packages still require rebuilding the exe.
 
 Run without building: `python launcher.py`.
+
+## Local AI with Ollama (v2.1)
+
+1. Install Ollama from https://ollama.com and open it.
+2. In cmd: `ollama pull llama3.2` (about 2 GB).
+3. App: Settings > AI > AI brain = **Ollama (local)**, pick the model.
+4. For fully offline voice: Settings > Voice > Speech recognition = **Windows (offline)**.
+
+With both set, no API key or internet is needed.

@@ -15,6 +15,8 @@ import sys
 import tempfile
 import threading
 import time
+import re
+import urllib.error
 import urllib.request
 import wave
 from datetime import datetime
@@ -29,11 +31,15 @@ from groq import Groq
 from unidecode import unidecode
 
 APP_NAME = "AI Assistant"
-APP_VERSION = "2.0.0"
+APP_VERSION = "2.1.0"
 
 SAMPLE_RATE = 16000
 STT_MODEL = "whisper-large-v3-turbo"
 CHAT_MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+PROVIDERS = ["Groq (online)", "Ollama (local)"]
+STT_ENGINES = ["Groq Whisper (online)", "Windows (offline)"]
+DEFAULT_OLLAMA_URL = "http://localhost:11434"
+WIN_CULTURES = {"en": "en-US", "fr": "fr-FR", "ar": "ar-SA", "es": "es-ES", "de": "de-DE"}
 MAX_SECONDS = 15
 IS_WIN = sys.platform == "win32"
 NO_WINDOW = 0x08000000 if IS_WIN else 0
@@ -64,6 +70,8 @@ FONT_SIZES = {"Small": 12, "Medium": 14, "Large": 17}
 
 DEFAULTS = {
     "api_key": "", "port": "", "auto_connect": True, "model": CHAT_MODELS[0],
+    "provider": PROVIDERS[0], "ollama_url": DEFAULT_OLLAMA_URL, "ollama_model": "llama3.2",
+    "stt": STT_ENGINES[0],
     "assistant_name": "Nova", "personality": "Friendly", "custom_prompt": "",
     "language": "Auto", "length": "Short",
     "speak": True, "voice": "", "voice_rate": 1, "voice_volume": 100,
@@ -151,6 +159,64 @@ def restart_app():
         subprocess.Popen([sys.executable])
     else:
         subprocess.Popen([sys.executable, os.path.abspath(sys.argv[0])])
+
+
+# ---------------------------------------------------------------- local AI (Ollama)
+def ollama_request(base, path, payload=None, timeout=10):
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    req = urllib.request.Request(base.rstrip("/") + path, data=data,
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+def ollama_models(base):
+    return sorted(m["name"] for m in ollama_request(base, "/api/tags").get("models", []))
+
+
+def ollama_chat(base, model, messages, max_tokens):
+    payload = {"model": model, "messages": messages, "stream": False,
+               "options": {"num_predict": max_tokens * 3}}
+    try:
+        res = ollama_request(base, "/api/chat", payload, timeout=300)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            raise RuntimeError(f"OLLAMA_NO_MODEL:{model}")
+        raise
+    except urllib.error.URLError:
+        raise RuntimeError("OLLAMA_OFFLINE")
+    text = res.get("message", {}).get("content", "")
+    return re.sub(r"<think>.*?</think>", "", text, flags=re.S).strip()  # hide "thinking" models' notes
+
+
+# ---------------------------------------------------------------- offline speech recognition
+def windows_stt(wav, lang=None):
+    """Speech-to-text with the recognizer built into Windows (no internet)."""
+    if not IS_WIN:
+        raise RuntimeError("WIN_STT:Offline speech recognition only works on Windows")
+    fd, path = tempfile.mkstemp(suffix=".wav")
+    with os.fdopen(fd, "wb") as f:
+        f.write(wav)
+    make = "New-Object System.Speech.Recognition.SpeechRecognitionEngine"
+    culture = WIN_CULTURES.get(lang or "")
+    engine = (f"try {{ $r = {make}([System.Globalization.CultureInfo]'{culture}') }} catch {{ $r = {make} }}; "
+              if culture else f"$r = {make}; ")
+    ps = ("[Console]::OutputEncoding = [Text.Encoding]::UTF8; Add-Type -AssemblyName System.Speech; "
+          + engine + "$r.LoadGrammar((New-Object System.Speech.Recognition.DictationGrammar)); "
+          f"$r.SetInputToWaveFile('{path}'); $out = @(); "
+          "while ($res = $r.Recognize()) { $out += $res.Text }; $r.Dispose(); $out -join ' '")
+    try:
+        out = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True,
+                             timeout=90, creationflags=NO_WINDOW)
+        text = out.stdout.decode("utf-8", "ignore").strip()
+        if out.returncode != 0 and not text:
+            raise RuntimeError("WIN_STT:" + out.stderr.decode("utf-8", "ignore")[:160])
+        return text
+    finally:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
 
 
 # ---------------------------------------------------------------- speech out
@@ -302,7 +368,7 @@ class SettingsWindow(ctk.CTkToplevel):
 
         # ----- General
         p = pages["General"]
-        self._label(p, "Groq API key", "Free at console.groq.com - stored only on this PC")
+        self._label(p, "Groq API key", "Free at console.groq.com - not needed with Ollama + Windows speech")
         krow = ctk.CTkFrame(p, fg_color="transparent")
         krow.pack(fill="x", pady=4)
         self.key = ctk.CTkEntry(krow, show="•", height=36)
@@ -324,8 +390,27 @@ class SettingsWindow(ctk.CTkToplevel):
 
         # ----- AI
         p = pages["AI"]
-        self._label(p, "Model", "70b = smartest, 8b = fastest")
+        self._label(p, "AI brain", "Groq = online and fast · Ollama = runs on this PC, free and offline")
+        self.provider = self._segment(p, PROVIDERS, cfg["provider"])
+        self._label(p, "Groq model", "70b = smartest, 8b = fastest")
         self.model = self._menu(p, CHAT_MODELS, cfg["model"])
+        self._label(p, "Ollama model", "Install models with:  ollama pull llama3.2")
+        orow = ctk.CTkFrame(p, fg_color="transparent")
+        orow.pack(fill="x", pady=4)
+        self.ollama_model = ctk.CTkComboBox(orow, values=[cfg["ollama_model"]], height=34, fg_color=CARD,
+                                            text_color=TEXT, button_color=self.accent,
+                                            button_hover_color=shade(self.accent))
+        self.ollama_model.set(cfg["ollama_model"])
+        self.ollama_model.pack(side="left", fill="x", expand=True)
+        ctk.CTkButton(orow, text="⟳", width=40, height=34, fg_color=CARD, text_color=TEXT, hover_color=AI_BUBBLE,
+                      command=self._load_ollama).pack(side="left", padx=6)
+        self.ollama_status = ctk.CTkLabel(p, text="", text_color=MUTED, font=(FONT, 11))
+        self.ollama_status.pack(anchor="w")
+        self._label(p, "Ollama address")
+        self.ollama_url = ctk.CTkEntry(p, height=34)
+        self.ollama_url.insert(0, cfg["ollama_url"])
+        self.ollama_url.pack(fill="x", pady=4)
+        self.after(300, self._load_ollama)
         self._label(p, "Personality")
         self.personality = self._segment(p, list(PERSONALITIES), cfg["personality"])
         self._label(p, "Custom instructions", "Used with the Custom personality (or added to any other)")
@@ -349,6 +434,8 @@ class SettingsWindow(ctk.CTkToplevel):
         self.volume = self._slider(p, 10, 100, cfg["voice_volume"], 9)
         ctk.CTkButton(p, text="▶  Test voice", fg_color=CARD, text_color=TEXT, hover_color=AI_BUBBLE,
                       command=self._test_voice).pack(anchor="w", pady=8)
+        self._label(p, "Speech recognition", "Windows (offline) needs no internet or key - works best in English")
+        self.stt = self._segment(p, STT_ENGINES, cfg["stt"])
         self._label(p, "Microphone silence level", "Raise it if recording never stops in a noisy room")
         self.silence = self._slider(p, 100, 2000, cfg["silence_level"])
 
@@ -446,6 +533,30 @@ class SettingsWindow(ctk.CTkToplevel):
         if voices:
             self.after(0, lambda: self.voice.configure(values=["Default"] + voices))
 
+    def _load_ollama(self):
+        url = self.ollama_url.get().strip() or DEFAULT_OLLAMA_URL
+        self.ollama_status.configure(text="Looking for Ollama…", text_color=MUTED)
+
+        def work():
+            try:
+                models = ollama_models(url)
+                msg = (f"✓ Ollama is running · {len(models)} model(s) installed" if models
+                       else "✓ Ollama is running, but no models yet: run  ollama pull llama3.2")
+                ok = (models, msg, GREEN if models else AMBER)
+            except Exception:
+                ok = (None, f"✗ Ollama not found at {url} - install it from ollama.com and open it", RED)
+            self.after(0, lambda: self._ollama_done(*ok))
+        threading.Thread(target=work, daemon=True).start()
+
+    def _ollama_done(self, models, msg, color):
+        if not self.winfo_exists():
+            return
+        self.ollama_status.configure(text=msg, text_color=color)
+        if models:
+            self.ollama_model.configure(values=models)
+            if self.ollama_model.get() not in models:
+                self.ollama_model.set(models[0])
+
     def _voice_value(self):
         v = self.voice.get()
         return "" if v == "Default" else v
@@ -470,6 +581,10 @@ class SettingsWindow(ctk.CTkToplevel):
         c["remember_chat"] = bool(self.remember.get())
         c["quick_prompts"] = [q.strip() for q in self.quick.get("1.0", "end").splitlines() if q.strip()][:8]
         c["model"] = self.model.get()
+        c["provider"] = self.provider.get()
+        c["ollama_model"] = self.ollama_model.get().strip() or "llama3.2"
+        c["ollama_url"] = self.ollama_url.get().strip() or DEFAULT_OLLAMA_URL
+        c["stt"] = self.stt.get()
         c["personality"] = self.personality.get()
         c["custom_prompt"] = self.custom.get("1.0", "end").strip()
         c["language"] = self.language.get()
@@ -535,7 +650,7 @@ class App(ctk.CTk):
         self.after(50, self.poll_events)
         self.after(120, self.animate)
         self._restore_chat()
-        if not self.cfg["api_key"]:
+        if self._needs_key() and not self.cfg["api_key"]:
             self.after(500, self.open_settings)
         saved_ok = any(d == self.cfg["port"] for d, _ in self.ports)
         if self.cfg["auto_connect"] and (saved_ok or guess_port(self.ports, strict=True)):
@@ -558,7 +673,7 @@ class App(ctk.CTk):
         self.title_lbl = ctk.CTkLabel(names, text=self.cfg["assistant_name"], text_color=TEXT,
                                       font=(FONT, 24, "bold"))
         self.title_lbl.pack(anchor="w")
-        self.sub_lbl = ctk.CTkLabel(names, text=f"{self.cfg['personality']} · v{APP_VERSION}",
+        self.sub_lbl = ctk.CTkLabel(names, text=self._subtitle(),
                                     text_color=MUTED, font=(FONT, 11))
         self.sub_lbl.pack(anchor="w")
 
@@ -892,7 +1007,7 @@ class App(ctk.CTk):
     def on_settings_saved(self, needs_restart=False):
         ctk.set_appearance_mode(self.cfg["theme"])
         self.title_lbl.configure(text=self.cfg["assistant_name"])
-        self.sub_lbl.configure(text=f"{self.cfg['personality']} · v{APP_VERSION}")
+        self.sub_lbl.configure(text=self._subtitle())
         if self.cfg["speak"]:
             self.speak_switch.select()
         else:
@@ -935,11 +1050,25 @@ class App(ctk.CTk):
         threading.Thread(target=self.speaker.speak, args=(text, self.cfg["voice"], self.cfg["voice_rate"],
                                                           self.cfg["voice_volume"]), daemon=True).start()
 
-    def _ready_to_ask(self):
+    def _local(self):
+        return self.cfg["provider"] == PROVIDERS[1]
+
+    def _needs_key(self):
+        return not self._local() or self.cfg["stt"] == STT_ENGINES[0]
+
+    def _subtitle(self):
+        model = ("🖥 " + self.cfg["ollama_model"]) if self._local() else self.cfg["model"]
+        if len(model) > 22:
+            model = model[:21] + "…"
+        return f"{self.cfg['personality']} · {model} · v{APP_VERSION}"
+
+    def _ready_to_ask(self, voice=False):
         if self.busy:
             return False
-        if not self.cfg["api_key"]:
-            self.show_banner("Add your Groq API key in Settings first.", AMBER, "Open", self.open_settings)
+        needs_key = not self._local() or (voice and self.cfg["stt"] == STT_ENGINES[0])
+        if needs_key and not self.cfg["api_key"]:
+            self.show_banner("Add a Groq API key in Settings, or switch to Ollama + Windows speech.",
+                             AMBER, "Open", self.open_settings)
             return False
         self.speaker.stop()
         self.busy = True
@@ -948,7 +1077,7 @@ class App(ctk.CTk):
         return True
 
     def start_voice(self):
-        if self._ready_to_ask():
+        if self._ready_to_ask(voice=True):
             threading.Thread(target=self._voice_worker, daemon=True).start()
 
     def send_text(self, text=None):
@@ -998,11 +1127,13 @@ class App(ctk.CTk):
                 self.events.put(("banner", ("I didn't hear anything. Try again a bit louder.", AMBER)))
                 return
             self.events.put(("status", ("Thinking", AMBER)))
-            kwargs = {}
-            if LANGUAGES.get(self.cfg["language"]):
-                kwargs["language"] = LANGUAGES[self.cfg["language"]]
-            text = Groq(api_key=self.cfg["api_key"]).audio.transcriptions.create(
-                file=("q.wav", wav), model=STT_MODEL, **kwargs).text.strip()
+            lang = LANGUAGES.get(self.cfg["language"])
+            if self.cfg["stt"] == STT_ENGINES[1]:
+                text = windows_stt(wav, lang)
+            else:
+                kwargs = {"language": lang} if lang else {}
+                text = Groq(api_key=self.cfg["api_key"]).audio.transcriptions.create(
+                    file=("q.wav", wav), model=STT_MODEL, **kwargs).text.strip()
             if not text:
                 self.events.put(("banner", ("Sorry, I couldn't understand that.", AMBER)))
                 return
@@ -1048,11 +1179,15 @@ class App(ctk.CTk):
         if not history or history[-1]["content"] != question:
             history.append({"role": "user", "content": question})
         _, max_tokens = LENGTHS.get(self.cfg["length"], LENGTHS["Short"])
-        reply = Groq(api_key=self.cfg["api_key"]).chat.completions.create(
-            model=self.cfg["model"],
-            messages=[{"role": "system", "content": self._system_prompt()}] + history,
-            max_tokens=max_tokens,
-        ).choices[0].message.content.strip()
+        messages = [{"role": "system", "content": self._system_prompt()}] + history
+        if self._local():
+            reply = ollama_chat(self.cfg["ollama_url"], self.cfg["ollama_model"], messages, max_tokens)
+        else:
+            reply = Groq(api_key=self.cfg["api_key"]).chat.completions.create(
+                model=self.cfg["model"], messages=messages, max_tokens=max_tokens,
+            ).choices[0].message.content.strip()
+        if not reply:
+            reply = "Hmm, I don't have an answer for that."
         self.events.put(("message", ("ai", reply)))
         if self.arduino and self.cfg["lcd_answers"]:
             self.arduino.send("A:" + reply)
@@ -1064,6 +1199,14 @@ class App(ctk.CTk):
     def _friendly_error(e):
         msg = str(e)
         low = msg.lower()
+        if msg == "OLLAMA_OFFLINE":
+            return "Ollama isn't running. Install it from ollama.com and open it (it sits in the tray)."
+        if msg.startswith("OLLAMA_NO_MODEL:"):
+            m = msg.split(":", 1)[1]
+            return f"The model '{m}' isn't installed. Open cmd and run:  ollama pull {m}"
+        if msg.startswith("WIN_STT:") or "recognizer" in low:
+            return ("Windows speech recognition didn't work. Add a speech language in Windows Settings > "
+                    "Time & language > Speech, or switch to Groq Whisper in ⚙ Settings > Voice.")
         if "401" in msg or "invalid_api_key" in low:
             return "Your API key doesn't work. Check it in ⚙ Settings."
         if "connect" in low or "timeout" in low:
