@@ -1,0 +1,7 @@
+customtkinter==5.2.2
+groq
+pyserial
+sounddevice
+numpy
+unidecode
+pyttsx3; sys_platform != "win32"
