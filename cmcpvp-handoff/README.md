@@ -1,9 +1,9 @@
-# C MCPvP 1.0.3 (Cracked Minecraft PvP)
+# C MCPvP 1.0.4 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.3.jar`
+**The jar:** `CMCPvP-1.0.4.jar`
 
 | Picture | What it shows |
 | --- | --- |
@@ -20,7 +20,7 @@ There is no SMP, no hub and no server selector, only the lobby.
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.3.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.4.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -83,7 +83,7 @@ The Fracture is a floating island about 350 blocks across. A glowing chasm split
   - the stands are split into two-colour seating sectors, with lanterns where the walkways meet the aisles
   - arched tunnel entrances are cut into the stands, each with a keystone
   - the gallery above has keystones, a two-colour frieze, cloth hangings, balconies, corbels, battlements and flagpoles
-  - the tournament arena has a giant golden trophy above the royal box
+  - the tournament arena has a golden trophy on each main gate, between the towers
   - the Titan Colosseum's wall got the same framed design
 - The landscape is only scenery. An invisible wall stands where each arena used to end, so fights (mace flights and pearls too) stay in the same area as before.
 - New arenas get this automatically.
@@ -121,7 +121,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.3.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.4.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.

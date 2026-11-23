@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.3",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.3.jar",
-    "sha256": "4e85a4f1deb73c14cf445fe19fed837ca8b8c0c0338bc24b00fef110759209d4",
-    "notes": "Tournament arena modes: Road to the Colosseum, Champion's Choice, Arena Roulette or Colosseum only; flags, trophy plinth and rock spires fixed"
+    "version": "1.0.4",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.4.jar",
+    "sha256": "5ec7a137c46664407211939b84da44c1f3a01337c9a3ceb8f7662c40645e5ce4",
+    "notes": "The champions' trophy stands on the main gates of the tournament colosseum instead of over the stands"
   }
 }
