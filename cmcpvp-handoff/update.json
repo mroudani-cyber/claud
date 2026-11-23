@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.2",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.2.jar",
-    "sha256": "d0b30920d1dcd39a1992aeb0317a142e12c109502d3ef5ce405d34c13a14f109",
-    "notes": "Detailed colosseum walls: framed arena wall with emblems, two-colour seating sectors, tunnel entrances, keystones, frieze, cloth hangings, balconies, battlements, flags and a giant trophy on the tournament arena"
+    "version": "1.0.3",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.3.jar",
+    "sha256": "4e85a4f1deb73c14cf445fe19fed837ca8b8c0c0338bc24b00fef110759209d4",
+    "notes": "Tournament arena modes: Road to the Colosseum, Champion's Choice, Arena Roulette or Colosseum only; flags, trophy plinth and rock spires fixed"
   }
 }

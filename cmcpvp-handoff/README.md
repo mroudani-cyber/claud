@@ -1,9 +1,9 @@
-# C MCPvP 1.0.2 (Cracked Minecraft PvP)
+# C MCPvP 1.0.3 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.2.jar`
+**The jar:** `CMCPvP-1.0.3.jar`
 
 | Picture | What it shows |
 | --- | --- |
@@ -20,7 +20,7 @@ There is no SMP, no hub and no server selector, only the lobby.
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.2.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.3.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -89,7 +89,20 @@ The Fracture is a floating island about 350 blocks across. A glowing chasm split
 - New arenas get this automatically.
 - To rebuild arenas that already exist with the new look, use the **Regenerate Designed Arenas** button in /pvpadmin, or run `/pvpadmin regenerate confirm`. The vanilla terrain maps are not touched.
 
-## 4. Set it up as yours
+## 4. Tournaments: where matches are played
+
+When you host a tournament (`/event host`), pick **Arenas**. Nobody votes:
+
+| Mode | How it works |
+| --- | --- |
+| **Road to the Colosseum** (default) | Every round is played in its own arena. The whole road is shown when the bracket starts, and each stop is revealed to everyone with a big title when its round begins. |
+| **Champion's Choice** | The higher-ranked player of each match earns the pick. They choose the arena from five, and their opponent watches the pick live. They have 10 seconds, then a random arena is picked for them. |
+| **Arena Roulette** | Both players watch a slot machine spin through the arenas, slow down and stop on one. |
+| **Colosseum only** | Every match is in the Champions Colosseum, like before. |
+
+With **Final in the Champions Colosseum** on (the default once it's built), the final is always fought there, with its own reveal.
+
+## 5. Set it up as yours
 
 All of these are in **/pvpadmin → Settings**:
 
@@ -99,7 +112,7 @@ All of these are in **/pvpadmin → Settings**:
 | Discord link (`extras.links.discord`) | Empty | Paste your new Discord invite. It shows in `/links` and in the "Join our Discord!" message |
 | Website | Branded C MCPvP, with a placeholder crimson-and-gold logo | The logo is built into the jar. Send me your logo and I'll put it in the next version |
 
-## 5. Updates
+## 6. Updates
 
 - C MCPvP checks its own update feed: `cmcpvp-handoff/update.json` on this branch. It never downloads the Vortex jar.
 - A new version is downloaded in the background but installs only on a restart. To install it now:
@@ -108,7 +121,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.2.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.3.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
