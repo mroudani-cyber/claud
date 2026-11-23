@@ -1,9 +1,9 @@
-# C MCPvP 1.0.0 (Cracked Minecraft PvP)
+# C MCPvP 1.0.1 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.0.jar`
+**The jar:** `CMCPvP-1.0.1.jar`
 
 | Picture | What it shows |
 | --- | --- |
@@ -11,13 +11,15 @@ There is no SMP, no hub and no server selector, only the lobby.
 | `previews/fracturespawndesign-spawn.png` | What a player sees on joining |
 | `previews/arenas-air-sheet.png` | The 13 designed arenas with their new landscapes |
 | `previews/arenas-floor-sheet.png` | The view from each arena's fighting floor |
+| `previews/colosseum_grand-air.png` | The mace arena (Grand Colosseum) in its alpine valley |
+| `previews/colosseum_champions-air.png` | The tournament arena (Champions Colosseum) in its valley |
 
 ---
 
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.0.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.1.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -72,7 +74,10 @@ The Fracture is a floating island about 350 blocks across. A glowing chasm split
   - forests of the theme's trees
   - set pieces such as villages, watchtowers, a windmill, camps, temples, pyramids, obelisks, graveyards, stilt huts and spires
   - small islands floating in the sky
+- The mace arena (Grand Colosseum) stands in an alpine valley: snowy peaks, spruce forests, a village, watchtowers and a windmill.
+- The tournament arena (Champions Colosseum) stands in a valley with white-stone mountains, cypress forests, quartz temples, gold-tipped obelisks and camps.
 - From the floor, you see the mountains and trees over the stands and walls.
+- The landscape is only scenery. An invisible wall stands where each arena used to end, so fights (mace flights and pearls too) stay in the same area as before.
 - New arenas get this automatically.
 - To rebuild arenas that already exist with the new look, use the **Regenerate Designed Arenas** button in /pvpadmin, or run `/pvpadmin regenerate confirm`. The vanilla terrain maps are not touched.
 
@@ -95,7 +100,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.0.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.1.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
