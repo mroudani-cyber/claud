@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.4",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.4.jar",
-    "sha256": "5ec7a137c46664407211939b84da44c1f3a01337c9a3ceb8f7662c40645e5ce4",
-    "notes": "The champions' trophy stands on the main gates of the tournament colosseum instead of over the stands"
+    "version": "1.0.5",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.5.jar",
+    "sha256": "e8a5aa268df560b1dd7a66b66f8bbafa1f15b626e4a36852a595de85f9a18208",
+    "notes": "The tournament colosseum's royal box is replaced by an open royal balcony: balustrade, carpet, thrones, flag posts - nothing over the stands"
   }
 }

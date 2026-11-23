@@ -1,9 +1,9 @@
-# C MCPvP 1.0.4 (Cracked Minecraft PvP)
+# C MCPvP 1.0.5 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.4.jar`
+**The jar:** `CMCPvP-1.0.5.jar`
 
 | Picture | What it shows |
 | --- | --- |
@@ -20,7 +20,7 @@ There is no SMP, no hub and no server selector, only the lobby.
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.4.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.5.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -121,7 +121,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.4.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.5.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
