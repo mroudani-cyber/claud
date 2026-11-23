@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.1",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.1.jar",
-    "sha256": "10a8a8d14f6c274a9b506a5755ab1b3d95fe9e013d27953331ce447b271866b1",
-    "notes": "The mace arena (Grand Colosseum) and the tournament arena (Champions Colosseum) get their landscapes too; invisible walls keep every fight inside the old arena areas"
+    "version": "1.0.2",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.2.jar",
+    "sha256": "d0b30920d1dcd39a1992aeb0317a142e12c109502d3ef5ce405d34c13a14f109",
+    "notes": "Detailed colosseum walls: framed arena wall with emblems, two-colour seating sectors, tunnel entrances, keystones, frieze, cloth hangings, balconies, battlements, flags and a giant trophy on the tournament arena"
   }
 }
