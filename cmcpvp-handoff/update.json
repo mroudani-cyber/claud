@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.5",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.5.jar",
-    "sha256": "e8a5aa268df560b1dd7a66b66f8bbafa1f15b626e4a36852a595de85f9a18208",
-    "notes": "The tournament colosseum's royal box is replaced by an open royal balcony: balustrade, carpet, thrones, flag posts - nothing over the stands"
+    "version": "1.0.6",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.6.jar",
+    "sha256": "65b1c6e875801610605eb7d533831091ac1a1dc0e930b5ee5e41a26406cdca7e",
+    "notes": "15 new pro arenas next to the old ones (the old arenas stay): 11 themed courts, the Gladiator Pit, the Imperial Colosseum, the Highpeak Colosseum (mace) and the C MCPvP Arena - the only one with the server's name. Each has its own landscape, a giant statue and a giant sword"
   }
 }
