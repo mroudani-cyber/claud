@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.8",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.8.jar",
-    "sha256": "fdb5fdc03b1706ea1b718fe2de14cd6fd1c55f2dafd070bbd6673397fa92ece5",
-    "notes": "The new courts are rebuilt like palace grounds: each has its own giant main building (castles, palaces, cathedrals, pagoda temples, a ziggurat, a pyramid), stands or an arcade facing it, gateways at the ends and open gardens in the corners. Two new walled courts: Sunken Atlantis and Starfall Citadel"
+    "version": "1.0.9",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.9.jar",
+    "sha256": "db726bf89389fbc287244af11a0f3f1f77ff5c8d9b2ed3612055ab601e453f99",
+    "notes": "1.8 kits removed. Duel maps are built when a match needs them while both players wait in a themed waiting room; FFA arenas are built once. Much faster generation, new duel animations, and lobby NPC booths and holograms placed automatically."
   }
 }

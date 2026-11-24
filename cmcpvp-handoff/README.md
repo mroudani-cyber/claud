@@ -1,9 +1,23 @@
-# C MCPvP 1.0.8 (Cracked Minecraft PvP)
+# C MCPvP 1.0.9 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.8.jar`
+**The jar:** `CMCPvP-1.0.9.jar`
+
+## New in 1.0.9
+
+| What | How it works |
+| --- | --- |
+| **1.8 kits removed** | 1.8 combat, the 1.8 kits, the Legacy Hall, the 1.8 tab and every 1.8 setting and command are gone. Saved 1.8 kits are deleted on the first start, and the console says how many. |
+| **Arenas built when needed** | No duel map is built at start-up. When two players are matched, their map is built then. If every copy of a map is in use, one more copy is built. |
+| **Waiting room** | While their map builds, both players stand in a small room styled like that arena, split by a glass wall. They see a progress bar, "Waiting for the arena" with the opponent's name, and particles. When the map is ready the bar turns green, "ARENA READY" shows, and they're moved in. |
+| **FFA built once** | FFA arenas are built once, on the first start, and never rebuilt by themselves. |
+| **Faster generation** | Maps are pasted chunk by chunk instead of block by block, and the designs are planned off the main thread. Building a map costs the server much less. |
+| **New duel animations** | Match found types itself in. The countdown closes in with a flash. FIGHT and DEATHMATCH slam onto the screen. A round win splits open and a loss shatters. Victory slams in with a gold crown of particles, and defeat shatters. Your Elo counts up or down after the match. |
+| **Auto-placed NPCs** | Every lobby NPC the build has no spot for (Tournaments, Cosmetics, Bot Practice, Stats, New Here?, Academy) gets its own booth on free flat ground round the spawn, facing it. Lobbies without leaderboards or welcome holograms get those too. This runs after a lobby is built, and once by itself for the lobby you already have (on the Club Spawn map, up to 6 booths). `/npc autoplace` runs it again. |
+
+To build every map at start-up like before, turn **On-Demand Arenas** (`arena.on-demand`) off in /pvpadmin → Settings → Arena. To stop the booths, turn **Auto-Place NPCs** (`lobby.auto-place`) off in Settings → Lobby.
 
 | Picture | What it shows |
 | --- | --- |
@@ -26,7 +40,7 @@ There is no SMP, no hub and no server selector, only the lobby.
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.8.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.9.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -34,13 +48,13 @@ There is no SMP, no hub and no server selector, only the lobby.
    - The database name is `cmcpvp`.
    - Permissions start with `cmcpvp.`, and the admin permission is `cmcpvp.admin`.
 
-On the first start, the arenas build themselves: every duel map, plus one FFA arena for each FFA kit. This takes a few minutes. Admins get a chat message when the arenas are switched on.
+On the first start, one FFA arena is built for each FFA kit. Duel maps are built the first time two players are matched on them, while they wait in the waiting room (see New in 1.0.9).
 
 ## 2. Build the lobby (The Fracture)
 
 1. Stand where the middle of the spawn should be, in open air (y=100 in a void or flat world is good).
 2. Run **`/pvpadmin hub build FRACTURE`**. You can also use **/pvpadmin → Builds → ★ The Fracture**, which lets you preview it in 3D first.
-3. Wait for the build to finish. When it's done, the lobby spawn is set, every NPC is placed, and you are teleported to the spawn point.
+3. Wait for the build to finish. When it's done, the lobby spawn is set, every NPC is placed, and you are teleported to the spawn point. Any NPC the design has no spot for gets its own booth (see New in 1.0.9).
 
 **The old MCPVP.club map is still there:** use `/pvpadmin hub build CLUB_SPAWN`, or pick **Club Spawn** in Builds.
 
@@ -103,7 +117,7 @@ What's in them:
 - **The name.** Only the C MCPvP Arena shows it: on a big board over its stands, and on a giant sign behind its gate in place of the sword.
 - **Only the floor is playable.** An invisible wall stands at its edge, and building or explosions only change the floor.
 
-They're built by themselves on the first start after the update (a few minutes; admins get a message when they're switched on). This needs **First-Run Arenas** (`general.auto-generate-arenas`) on, which is the default. The tournament final is still played in the Champions Colosseum.
+Each one is built the first time a match needs it. With **On-Demand Arenas** off, they're all built on the first start instead (a few minutes; admins get a message when they're switched on). The tournament final is still played in the Champions Colosseum.
 
 ### The arenas from before (unchanged)
 
@@ -153,13 +167,14 @@ All of these are in **/pvpadmin → Settings**:
 ## 6. Updates
 
 - C MCPvP checks its own update feed: `cmcpvp-handoff/update.json` on this branch. It never downloads the Vortex jar.
-- A new version is downloaded in the background but installs only on a restart. To install it now:
-  1. Run `/pvpadmin update now`.
-  2. Restart the server.
+- Every 30 minutes (**Update Check**, `updates.check-minutes`) it checks for a new version. A new jar is downloaded in the background, checked against its SHA-256 and put in `plugins/update/`.
+- It goes in by itself. The server restarts as soon as nobody is online. Otherwise it restarts at 5:00 (**Update Restart Hour**), after running matches finish (it waits up to 30 minutes) and a 5-minute countdown in chat. A full backup is taken first. For this, spigot.yml needs a restart script (`settings.restart-script`, `./start.sh` by default) so the server comes back. Without one, the update goes in at your next restart.
+- **Update Restart** (`updates.restart`): `EMPTY_OR_NIGHT` (default), `NOW` (a 60-second countdown as soon as it's downloaded) or `MANUAL`.
+- To install it right away, run `/pvpadmin update now`.
 
 ---
 
-**Source code:** `cmcpvp-1.0.8.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.9.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
