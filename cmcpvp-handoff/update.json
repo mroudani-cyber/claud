@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.9",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.9.jar",
-    "sha256": "db726bf89389fbc287244af11a0f3f1f77ff5c8d9b2ed3612055ab601e453f99",
-    "notes": "1.8 kits removed. Duel maps are built when a match needs them while both players wait in a themed waiting room; FFA arenas are built once. Much faster generation, new duel animations, and lobby NPC booths and holograms placed automatically."
+    "version": "1.0.10",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.10.jar",
+    "sha256": "3a5c6bfbde9ceeb9f38cf87b4b17261875a33978b5d0de8538ec633ecd016459",
+    "notes": "Automatic lobby NPC placement removed: NPCs are placed by hand. Booths 1.0.9 built are taken away once."
   }
 }

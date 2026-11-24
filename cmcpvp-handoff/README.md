@@ -1,9 +1,15 @@
-# C MCPvP 1.0.9 (Cracked Minecraft PvP)
+# C MCPvP 1.0.10 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.9.jar`
+**The jar:** `CMCPvP-1.0.10.jar`
+
+## New in 1.0.10
+
+- **No more automatic NPC placement.** You place lobby NPCs by hand with `/npc` again.
+- If 1.0.9 already built NPC booths in your lobby, they're taken away on the first start, along with their NPCs. The floor under each booth gets the surrounding floor block back. NPCs you placed or moved yourself are never touched.
+- Leaderboards or welcome holograms that 1.0.9 placed stay where they are. Remove any you don't want in game.
 
 ## New in 1.0.9
 
@@ -15,9 +21,8 @@ There is no SMP, no hub and no server selector, only the lobby.
 | **FFA built once** | FFA arenas are built once, on the first start, and never rebuilt by themselves. |
 | **Faster generation** | Maps are pasted chunk by chunk instead of block by block, and the designs are planned off the main thread. Building a map costs the server much less. |
 | **New duel animations** | Match found types itself in. The countdown closes in with a flash. FIGHT and DEATHMATCH slam onto the screen. A round win splits open and a loss shatters. Victory slams in with a gold crown of particles, and defeat shatters. Your Elo counts up or down after the match. |
-| **Auto-placed NPCs** | Every lobby NPC the build has no spot for (Tournaments, Cosmetics, Bot Practice, Stats, New Here?, Academy) gets its own booth on free flat ground round the spawn, facing it. Lobbies without leaderboards or welcome holograms get those too. This runs after a lobby is built, and once by itself for the lobby you already have (on the Club Spawn map, up to 6 booths). `/npc autoplace` runs it again. |
 
-To build every map at start-up like before, turn **On-Demand Arenas** (`arena.on-demand`) off in /pvpadmin → Settings → Arena. To stop the booths, turn **Auto-Place NPCs** (`lobby.auto-place`) off in Settings → Lobby.
+To build every map at start-up like before, turn **On-Demand Arenas** (`arena.on-demand`) off in /pvpadmin → Settings → Arena.
 
 | Picture | What it shows |
 | --- | --- |
@@ -40,7 +45,7 @@ To build every map at start-up like before, turn **On-Demand Arenas** (`arena.on
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.9.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.10.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -54,7 +59,7 @@ On the first start, one FFA arena is built for each FFA kit. Duel maps are built
 
 1. Stand where the middle of the spawn should be, in open air (y=100 in a void or flat world is good).
 2. Run **`/pvpadmin hub build FRACTURE`**. You can also use **/pvpadmin → Builds → ★ The Fracture**, which lets you preview it in 3D first.
-3. Wait for the build to finish. When it's done, the lobby spawn is set, every NPC is placed, and you are teleported to the spawn point. Any NPC the design has no spot for gets its own booth (see New in 1.0.9).
+3. Wait for the build to finish. When it's done, the lobby spawn is set, every NPC is placed, and you are teleported to the spawn point.
 
 **The old MCPVP.club map is still there:** use `/pvpadmin hub build CLUB_SPAWN`, or pick **Club Spawn** in Builds.
 
@@ -174,7 +179,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.9.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.10.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
