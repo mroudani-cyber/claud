@@ -1,8 +1,8 @@
 {
   "CMCPvP": {
-    "version": "1.0.7",
-    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.7.jar",
-    "sha256": "4245f2dee925a9d28f9dc3a02a77f6c8a8352f5eb62f53d30e1fdd390d70d788",
-    "notes": "The new arenas' floors are plain now (natural or same-colour textures, no decoration). Only the C MCPvP Arena has a small pixel-art sword in the middle"
+    "version": "1.0.8",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.8.jar",
+    "sha256": "fdb5fdc03b1706ea1b718fe2de14cd6fd1c55f2dafd070bbd6673397fa92ece5",
+    "notes": "The new courts are rebuilt like palace grounds: each has its own giant main building (castles, palaces, cathedrals, pagoda temples, a ziggurat, a pyramid), stands or an arcade facing it, gateways at the ends and open gardens in the corners. Two new walled courts: Sunken Atlantis and Starfall Citadel"
   }
 }
