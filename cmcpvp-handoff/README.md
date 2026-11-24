@@ -1,9 +1,9 @@
-# C MCPvP 1.0.6 (Cracked Minecraft PvP)
+# C MCPvP 1.0.7 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.6.jar`
+**The jar:** `CMCPvP-1.0.7.jar`
 
 | Picture | What it shows |
 | --- | --- |
@@ -25,7 +25,7 @@ There is no SMP, no hub and no server selector, only the lobby.
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.6.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.7.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -74,7 +74,7 @@ The Fracture is a floating island about 350 blocks across. A glowing chasm split
 
 ## 3. The arenas
 
-### New in 1.0.6: 15 pro arenas
+### 15 pro arenas (new in 1.0.6)
 
 Every arena from before stays, and is still generated. These 15 are added next to them:
 
@@ -90,7 +90,7 @@ What's in them:
 
 - **Colosseums.** From the floor up: pilasters with arched niches (a banner or a lantern in each), a terrace with urns and cypresses, stands in two-colour sectors with aisles and walkways, an arcade with a banner in every arch, upper stands, a two-storey colonnade, and a tiled awning with flagpoles. Two monumental gates with a red pediment, a portcullis and banner tapestries. The outside wall is three storeys of open arches.
 - **Courts.** Stone walls with wooden pilasters and light arched panels, a balcony with flower boxes and lantern posts, an arcade, tiled roofs with chimneys, round towers on the corners (cones, onion domes, pyramids or spires by theme), and a fortified gatehouse at each end.
-- **Floors.** Flat, with an inlaid crest in the middle: crossed swords on a shield, or a mace in the Highpeak Colosseum. The Imperial Colosseum's floor has a red sunburst; the Highpeak's has paths like the spokes of a wheel.
+- **Floors.** Plain, with no decoration: natural floors (sand with sandstone blocks, red sand, snow) or same-colour textures (terracotta shades, white stones, mossy stone, wood planks...). Only the C MCPvP Arena has a small pixel-art sword in the middle of its floor. No ice or magma on any floor.
 - **Landscapes.** Each arena has its own: snowy peaks, desert mesas, sakura hills, badlands, dark woods, tropical isles, jungle hills or volcanic peaks. They come with set pieces such as pagodas, torii gates, domed pavilions, pyramids, graveyards, stilt huts and ice spikes.
 - **Landmarks.** A giant knight statue stands behind one end and a giant sword in a rock behind the other. Both are high enough to see over the walls from the floor.
 - **The name.** Only the C MCPvP Arena shows it: giant cloths over both long sides, and a giant sign behind its gate in place of the sword.
@@ -152,7 +152,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.6.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.7.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
