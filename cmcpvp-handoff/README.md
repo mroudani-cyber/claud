@@ -1,9 +1,19 @@
-# C MCPvP 1.0.10 (Cracked Minecraft PvP)
+# CMCPVP 1.0.19 (Cracked Minecraft PvP)
 
 A practice-only server plugin: ranked and unranked duels, LT5 to HT1 tiers, FFA, parties, bots, tournaments, cosmetics.
 There is no SMP, no hub and no server selector, only the lobby.
 
-**The jar:** `CMCPvP-1.0.10.jar`
+**The jar:** `CMCPvP-1.0.19.jar`
+
+## New in 1.0.19
+
+The full change list of 1.0.11 to 1.0.19 is in `vortex-realm/README.md` of the plugin repo. 1.0.19 itself:
+
+- **Three new arenas**, with all the detail where players fight and look: the **Imperial Amphitheatre**, the **Crown Citadel** (castle courtyard) and the **Sultan's Palace**.
+- **FFA** arenas (except crystal) become the **Grand Colosseum**; existing ones on plain terrain are rebuilt once, one at a time.
+- Nothing is built outside the view, so the maps are light.
+- The old court and pro maps are retired (out of rotation, not deleted), and no floor has a logo any more.
+- `cmcpvp-1.0.19.bundle` holds the two 1.0.19 commits on top of 1.0.18 (`02b4025`).
 
 ## New in 1.0.10
 
@@ -45,7 +55,7 @@ To build every map at start-up like before, turn **On-Demand Arenas** (`arena.on
 ## 1. Install
 
 1. Use **Paper 1.21.11** and **Java 21**, the same as the Vortex server.
-2. Put `CMCPvP-1.0.10.jar` in `plugins/`.
+2. Put `CMCPvP-1.0.19.jar` in `plugins/`.
 3. **Do not install PracticePvP or VortexRealm on this server.** C MCPvP refuses to start next to them because they share commands and tables.
 4. Optional plugins work as before: LuckPerms, PlaceholderAPI (placeholders are `%cmcpvp_...%`), Vault, GrimAC or Vulcan.
 5. Start the server.
@@ -179,7 +189,7 @@ All of these are in **/pvpadmin → Settings**:
 
 ---
 
-**Source code:** `cmcpvp-1.0.10.bundle` is a git bundle of the source.
+**Source code:** `cmcpvp-1.0.19.bundle` is a git bundle of the source.
 
 - It holds only the C MCPvP commit, so apply `vortex-handoff/vortexrealm-3.14.10.bundle` first.
 - C MCPvP is generated from the same code as the Vortex plugin, with `tools/make_cmcpvp.py`.
