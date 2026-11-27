@@ -1,0 +1,135 @@
+# Installed skills (~/.claude/skills), 133 total
+
+- `/3d-chladni-render`: Clone or update https://github.com/nolangz/3D-Chladni and export deterministic 3D Chladni particle motion as MP4 or transparent ProRes MOV. 
+- `/acestep`: AI music generation with ACE-Step 1.5 — background music, vocal tracks, covers, stem extraction, audio repainting, and continuation for vi
+- `/action-fight-prompt`: 动作打戏 AI 视频提示词设计技能。当用户需要设计具备电影级运镜、节奏感、打击感的武打/战斗片段提示
+- `/add-byok-provider`: Add or maintain a built-in BYOK media provider in the OpenMotion repository, including official API research, credentials, model discovery, 
+- `/after-effects`: This skill should be used when the user asks anything about Adobe After Effects — to "write an After Effects expression", "make a wiggle /
+- `/animate`: Make a short procedural animation in any style — an explainer, a history, a little story — as a single-file canvas video with a synthesi
+- `/animation-principles`: This skill should be used when the user asks to "make this animation feel natural", "fix motion that feels stiff/floaty/cheap", "my animatio
+- `/anything2explainer`: 给一个主题，产出一条黑底 MG 风格（幕底可选星点或点阵波）、有配音字幕章节进度条的科普讲解视频（�
+- `/bang-motion`: Membangun motion graphic sinematik di browser (promo video, opener, intro, bumper, kinetic typography, explainer/video penjelasan bergambar 
+- `/beat-sync-editing`: This skill should be used when the user asks to "cut to the beat", "fix the pacing", "edit this sequence", "sync cuts to music/BPM", "add a 
+- `/blender`: 3D scenes, character acting and product shots from a shot spec, rendered in Blender, as a finished film, as clips for any other build (movie
+- `/brand-brief`: Capture or update a small business owner's brand brief — what they sell, who buys, the action they want readers to take, recent stories, a
+- `/brand-launch-video-star`: Create fast, high-impact 15-30 second brand and product marketing videos from an official company website, verified brand sources, or user-u
+- `/cinematic-asset-prompts`: 影视概念美术专家 & 视觉导演技能——从剧本/故事/世界观文字中提取并设计 AI 视频所需的标准化视觉资�
+- `/claude-typer`: Render a Claude-style prompt typing animation video by calling Remotion CLI against the remote site https://www.laosunwendao.com. Use when t
+- `/color-motion`: This skill should be used when the user asks to "build a color palette for a motion piece", "make a gradient background", "animate a color t
+- `/colorize`: Turn photos, videos, and Live Photos into a black-and-white to color reveal clip (单彩渐变 + 动感模糊 + 丁达尔旋焦). The frame 
+- `/content-coach`: Guides a beginner marketer end-to-end from "I don't know what to post" to a scheduled social post. Auto-runs brand-brief, idea brainstorm, p
+- `/desktop-client-dev`: Develop, extend, test and release the OpenMotion / OpenDesign Next cloud-first Electron desktop client, universal host bridge, local atomic 
+- `/disney-animation-rule-skill`: Apply Disney's 12 principles as practical design and engineering rules for procedural animation. Use when creating, improving, reviewing, or
+- `/elevenlabs`: Generate AI voiceovers, sound effects, and music using ElevenLabs APIs. Use when creating audio content for videos, podcasts, or games. Trig
+- `/emotion-performance-director`: Use when the user wants to design, rewrite, refine, or vary emotional acting prompts for live-action AI video characters. Translate abstract
+- `/explainer-default`: Make a clean 45–90 second product demo video for any software product, rendered from code to MP4 with music. Airy light canvas, short cent
+- `/explainer-engaging`: Make a 10–30 second continuous-shot explainer for any product, rendered from code to MP4 with sound. One hero element (a ball, a cursor, a
+- `/explainer-high-energy`: Make a 12–20 second high-energy motion-graphics promo for any product, rendered from code to MP4 with synthesised music. Fast beat-locked 
+- `/ffmpeg`: Video and audio processing with FFmpeg. Use for format conversion, resizing, compression, audio extraction, and preparing assets for Remotio
+- `/ffmpeg-analyse-video`: Analyse video content by extracting frames with ffmpeg and using AI vision
+- `/figma`: Bring Figma into a HyperFrames video - rendered assets, brand tokens, components, storyboard frames as reconstructed motion (frames read as 
+- `/fisheye-motion`: >
+- `/generate`: AI-generated footage (image-to-video through kie.ai, a paid service); for a narrated or edited video rendered free on this computer use make
+- `/hyperframes`: Read first to make, edit, animate or render any video with HyperFrames (HTML rendered to video), including launch films, explainers, music v
+- `/hyperframes-cli`: HyperFrames CLI - scaffold, check frames, edit timelines, preview, render, share and project history; read JSON and recover from failures.
+- `/hyperframes-registry`: About 450 ready-made HyperFrames blocks and components installed as editable source - transitions, overlays, titles, kinetic type, captions,
+- `/hypit`: Direct and produce videos with Hypit, primarily through generated media and authored components while incorporating briefs, references or su
+- `/ideogram4`: Prompting patterns for Ideogram 4 text-to-image — best-in-class in-image text rendering and exact color/layout control via structured JSON
+- `/lemo-opuscar`: Direct and produce a short film made entirely in code, in one of the styles of the Lemo-Opuscar library (e.g. Impasto Oil Painting 油画厚
+- `/light-spotlight-render`: Generate a swinging spotlight text-reveal HTML animation with configurable text, swing angle, lamp scale, glow, and colors. Use when users a
+- `/line-art-animation`: Build animated line-art components in SVG and TypeScript — thin ink lines on paper, people and animals that walk, run, cycle and react, sc
+- `/logo-animation`: This skill should be used when the user asks to "animate our logo", "make a logo intro/stinger", "build a brand reveal", "create an app spla
+- `/ltx2`: AI video generation with LTX-2.3 22B — text-to-video, image-to-video clips for video production. Use when generating video clips, animatin
+- `/make-video`: Use when making or editing short vertical videos in this repo — writing or changing a storyboard, editing a talking-head clip (cut, transc
+- `/media-use`: Get or make any media for a HyperFrames video - music, sound effects, images, icons, logos, voiceover, avatar and generated video, transcrip
+- `/miora-video-studio`: miora 视频生成的可靠性与规格层——补内置技能未覆盖的部分：四必填参数闸门（模式/分辨率/时长/画幅�
+- `/motion-art-direction`: This skill should be used when the user asks to "direct a motion graphics video", "do creative/art direction for a video", "define a motion 
+- `/motion-background`: This skill should be used when the user asks to "add an animated background", "build a mesh/gradient background", "make an aurora/shader bac
+- `/motion-broll`: Turn a talking-head video and its transcript into motion-graphic B-roll timed to the speaker's words, in a continuous one-shape style (one e
+- `/moviepy`: Python video composition with moviepy 2.x — overlaying deterministic text on AI-generated video (LTX-2, SadTalker), compositing clips, sin
+- `/object-separation`: Separate a person, product or hand from the background in a video, on the user's own computer with SAM 2. Scans the machine first to pick th
+- `/odui-apply`: Apply an existing Open Design UI component in OpenMotion Studio. Use when wiring a shared control into a Studio feature, replacing a native 
+- `/odui-build`: Create or evolve an Open Design UI component and its catalogue entry. Use when a designer or developer adds a control, changes its API, stat
+- `/odui-check`: Audit Open Design UI usage and component contributions before review. Use when checking design tokens, component boundaries, native controls
+- `/odui-dev`: Run and use the local Open Design UI catalogue while designing or reviewing components. Use when a designer or developer needs live previews
+- `/openmotion`: Create and edit videos with OpenMotion, recreate a reference video, or adapt an editable template. Connect to the OpenMotion Cloud Streamabl
+- `/openmotion-design`: >-
+- `/openmotion-director`: Plan and create original motion videos and motion graphics with OpenMotion, including esports recaps, explainers, product demos, and brand f
+- `/openmotion-game`: Build, remix, validate and locally publish playable browser games through the OpenMotion game tools, including deterministic server-authorit
+- `/openmotion-media`: >-
+- `/openmotion-production`: Execute local edits, asset or audio replacements, previews, technical troubleshooting, exports, and delivery on an existing OpenMotion proje
+- `/openmotion-recreate`: >-
+- `/openmotion-template-to-video`: Browse, compare and recommend OpenMotion catalog templates with a visible library preview, or make a video from an existing editable templat
+- `/openmotion-video-to-template`: Rebuild a reference video (pure motion graphics or mixed media with products, people, or audio) into a reusable editable OpenMotion template
+- `/parody-short`: Comedy shorts about a group's own life - a team's launch, quarter end, office move or leaving do; a club's season; a class's year; a family'
+- `/perspective-illusion`: Make a looping illustrated 3D video in the Japanese perspective-illusion style (e.g. @garments__) of any place, such as a street, crossing, 
+- `/playwright-recording`: Record browser interactions as video using Playwright. Use for capturing demo videos, app walkthroughs, and UI flows for Remotion videos. Tr
+- `/post-grader`: Grade a social media post for VIRALITY. Scores hook strength (50% — most critical), curiosity, emotional charge, share-worthiness, voice m
+- `/post-scheduler`: Schedule a finished social post to one or more platforms via the Blotato API. Handles single-platform and multi-platform scheduling, fetches
+- `/post-writer`: Write a complete social media post (hook + body + CTA) from a topic or idea, sized for the target platform. Reads brand-brief.md for voice a
+- `/printed-curtain-render`: Generate a browser-based p5.js curtain simulation that weaves user-supplied PNG, JPEG, or WebP artwork and optional text into individually m
+- `/procedural-fish-render`: Clone or update https://github.com/vibe-motion/procedural-fish and render procedural-fish animation to a video using the project's own rende
+- `/quality-check`: Check a finished video before calling it done, and keep fixing the storyboard and re-making until it passes. Catches captions on the face, c
+- `/qwen-edit`: AI image editing prompting patterns for Qwen-Image (Qwen-Image-Edit-2511 by default, Qwen-Image-2.1 as a non-commercial Modal opt-in). Use w
+- `/remotion`: Toolkit-specific Remotion patterns — custom transitions, shared components, and project conventions. For core Remotion framework knowledge
+- `/remotion-3d-ticker`: Creates infinite 3D vertical scrolling ticker animations in Remotion. Use when you need to build a parallax gallery, infinite image scroll, 
+- `/remotion-best-practices`: Router for all Remotion skills
+- `/remotion-candlestick`: >
+- `/remotion-captions`: Transcribing, displaying and animating captions
+- `/remotion-create`: Create a new Remotion video
+- `/remotion-docs`: Search Remotion documentation
+- `/remotion-elements`: Installs Elements, reusable video components such as titles, backgrounds, charts and caption styles, into a Remotion project with `npx remot
+- `/remotion-interactivity`: Structures Remotion markup so layers, timing and styles are editable in Remotion Studio. Use when writing a new composition or restructuring
+- `/remotion-license`: Find Remotion license information, FAQs, terms, and where to buy a license.
+- `/remotion-maps`: Remotion Map animation knowledge
+- `/remotion-markup`: Content, animation and effects best practices
+- `/remotion-multimedia`: Interacting with Mediabunny
+- `/remotion-render`: Export a Remotion video, still image, or editable OpenTimelineIO timeline
+- `/remotion-saas`: Build an app with Remotion
+- `/remotion-studio`: Preview a Remotion video
+- `/remotion-to-hyperframes`: Bring existing video code or footage into HyperFrames and verify it frame by frame against the original - Remotion first, also Motion Canvas
+- `/remotion-upgrade`: Upgrade Remotion, and related packages
+- `/remotion-video`: This skill should be used when the user asks to "make a video with Remotion", "create a programmatic/data-driven video in React", "render an
+- `/repurpose`: Turns one long-form input (blog post, newsletter, YouTube transcript, or script) into 3 platform-native LinkedIn posts, 5 X/Twitter threads,
+- `/reverse-any-video`: Rebuild any video file as an editable HyperFrames project - motion graphics, talking heads, live action or AI-generated footage - checked ag
+- `/ruler-progress-render`: Clone or update https://github.com/sxhzju/ruler-progress-animator and render a ruler progress video with default parameters. Use when users 
+- `/runpod`: Cloud GPU processing via RunPod serverless. Use when setting up RunPod endpoints, deploying Docker images, managing GPU resources, troublesh
+- `/seedance-motion-studio`: Use when planning, prompting, producing, reviewing, or improving professional Seedance 2.0 videos, especially product explainers, news expla
+- `/session-start-hook`: Creating and developing startup hooks for Claude Code cloud sessions. Use only when the user asks for a SessionStart hook committed to their
+- `/setup`: Set up ContentSkills by Blotato on this computer. Triggers on "setup blotato contentskills", "setup blotato/contentskills", "set up contents
+- `/shot-composition`: This skill should be used when the user asks to "compose a frame", "set up a grid", "plan shot composition", "place the focal point", "decid
+- `/slideshow`: Build a HyperFrames slideshow to present live - slides, fragment reveals, branching hotspots and presenter mode with speaker notes, served b
+- `/sound-effects`: Add a measured sound pass to a motion-graphics video made with Claude Code (HyperFrames, Remotion, GSAP, Claude Motion or the motion-broll s
+- `/style-sampling`: Make a new episode in a proven video style - Collage Explainer, Finance Explainer, Animated Science Explainer, 3D Brand Explainer, 3D True C
+- `/synced`: 
+- `/synthetic-ui-demo`: Product demo and release-notes videos with no screen recording. Rebuild the app's screens as static React from its source code, then drive t
+- `/threejs-animation`: "Keyframe, skeletal and morph-target animation, procedural motion and clip blending, on WebGL or with WebGPU and TSL. Use when animating obj
+- `/threejs-asset-pipeline`: "Shrinking glTF assets for three.js with gltf-transform: inspect, validate and optimize commands, Draco, meshopt and quantization, KTX2, Web
+- `/threejs-earth-render`: Clone or update https://github.com/vibe-motion/threejs-earth and render the Three.js Earth route animation with Puppeteer frame capture. Use
+- `/threejs-fundamentals`: "Three.js scene setup: scenes and fog, cameras, the renderer and tone mapping, the animation loop, object hierarchies, transforms, core math
+- `/threejs-geometry`: "Creating and shaping three.js geometry: built-in shapes, 3D text, vertex buffers and attributes, merging, instancing, batching, point cloud
+- `/threejs-interaction`: "Picking with raycasting, camera controls, transform gizmos, drag, hover and box selection for three.js, identical under WebGL and WebGPU. U
+- `/threejs-lighting`: "Light types and physical units, shadow maps, HDR environment lighting, light probes, and lighting performance, on WebGL or with WebGPU and 
+- `/threejs-loaders`: "Loading three.js assets: glTF with Draco, meshopt and KTX2 compression, other model formats, textures, HDR and EXR environments, progress, 
+- `/threejs-materials`: "Choosing and configuring three.js materials - unlit, diffuse, specular, PBR, toon, point and line materials - shared properties like blendi
+- `/threejs-performance`: "Measuring and optimizing three.js speed: render statistics, memory counters, fewer draw calls via merging, instancing, batching and LOD, fi
+- `/threejs-postprocessing`: "Three.js post-processing: composer pass chains, built-in renderer effects, and the WebGPU/TSL node pipeline — bloom, depth of field, ambi
+- `/threejs-react-three-fiber`: "Building three.js scenes from React with React Three Fiber and drei: renderer setup, the scene graph as JSX, frame-loop, state and loading 
+- `/threejs-shaders`: "Custom GLSL vertex and fragment shaders: uniforms, varyings, shader chunks, extending built-in materials, instanced attributes, plus the sa
+- `/threejs-textures`: "Three.js textures: image loading, color spaces, UV channels and transforms, texture types from canvas to HDR and KTX2, render targets, text
+- `/travel-photo-to-video`: 根据用户提供的 1–10 张真实旅拍照片和旅游地点，设计文旅宣传片的推荐分镜顺序、统一视觉母版与逐镜
+- `/travel-skill`: 规划、编写、审阅和修复由真实授权素材与 AI 生成镜头混合制作的电影级文旅宣传片。用于文旅短片创意�
+- `/video-clips`: Cut clips and highlights from a video. Use when the user wants a clip of a time range, a highlight reel of the moments that match a prompt (
+- `/video-design`: Visual design for videos - colour by act, type scale, chart and layout rules for 16:9 and 9:16 scenes, a design.md handoff that any design s
+- `/video-edit`: Edit and compose video on a timeline. Use when the user wants to add background music, a voiceover or another audio track, put text, a logo 
+- `/video-live`: "Live video and screen recording. Use when the user wants to connect a camera or live stream (RTSP, RTMP, HLS), watch it for an event and ge
+- `/video-perception`: Use when the user mentions a video file (.mp4, .mov, .avi, .mkv, .webm), a YouTube URL, asks to watch/analyze/review a video, or references 
+- `/video-search`: Find a moment in a video or ask a question about it. Use when the user wants to search inside a video, a library, or a meeting recording ("f
+- `/video-subtitles`: Subtitles, captions and transcripts for a video or audio file. Use when the user wants a transcript (plain or timestamped) of a video, podca
+- `/video-talkcraft`: 终极口播视频 skill：中文口播稿 + 成品配音 → CPU 字级时间戳 → SHOTBOOK 层矩阵分镜 → Remotion 电影感成片�
+- `/video_toolkit`: Make short explainer videos from a brief with claude-code-video-toolkit — submit a scene spec, poll a job, get a QC-checked MP4. Also cove
+- `/videodb`: Set up VideoDB and write code against the VideoDB Python SDK. Use for "setup videodb" or "/videodb setup", when the user wants Python code, 
+- `/viral-hooks`: A curated library of 100 proven viral hook frameworks across 13 categories (Receipts, Contrarian, Negative Frame, Stolen Lessons, Curiosity 
+- `/watch`: Watch a video (URL or local path). Downloads with yt-dlp, extracts auto-scaled frames with ffmpeg, pulls the transcript from captions (or lo
+- `/wechat-2d-render`: Clone or update https://github.com/sxhzju/wechat-2d and render the default WeChat-style 2D chat motion video with Remotion. Use when users a
+- `/youtube-stats`: How published videos are doing on YouTube, and what to learn from it. Views, likes, comments and subscribers per video, plus watch time, ret
