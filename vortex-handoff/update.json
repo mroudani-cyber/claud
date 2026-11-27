@@ -1,0 +1,20 @@
+{
+  "PracticePvP": {
+    "version": "2.14.10",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/PracticePvP-2.14.10.jar",
+    "sha256": "685eac983694a717d07140fbe29a0f9a9aaff3beff3d3653e7d010747bc6ea09",
+    "notes": "Fix: the SMP nether and end count as part of the SMP again, so /rtp, /tpa, /tpahere, /home, /sethome, /back, /spectate, claims and the SMP rules all work there"
+  },
+  "VortexRealm": {
+    "version": "3.14.10",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/VortexRealm-3.14.10.jar",
+    "sha256": "b6766af0ab1d0a25e79ad0b4df5bacf255156eea559811650f434c4922f5183f",
+    "notes": "Fix: the SMP nether and end count as part of the SMP again, so /rtp, /tpa, /tpahere, /home, /sethome, /back, /spectate, claims and the SMP rules all work there"
+  },
+  "VortexSMP": {
+    "version": "1.6.0",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/vortex-handoff/VortexSMP-1.6.0.jar",
+    "sha256": "1b66747e5c2088dfb25f6028bc37b639e7e690569256543f1a5bd15d82ea3425",
+    "notes": "VortexSMP is now part of VortexRealm - remove this plugin"
+  }
+}

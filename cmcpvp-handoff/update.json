@@ -1,0 +1,8 @@
+{
+  "CMCPvP": {
+    "version": "1.0.19",
+    "url": "https://raw.githubusercontent.com/mroudani-cyber/claud/ccr-7054e872-gpe1kq/cmcpvp-handoff/CMCPvP-1.0.19.jar",
+    "sha256": "91f983e3ea6acda7fe4992d9488dc64dcf23544721622f489f493e77078908fa",
+    "notes": "CMCPVP 1.0.19: three new arenas built with all the detail where players fight (Imperial Amphitheatre, Crown Citadel, Sultan's Palace), FFA arenas become the Grand Colosseum, the old court and pro maps are retired, no logos on any floor, lighter maps"
+  }
+}
