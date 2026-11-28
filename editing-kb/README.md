@@ -9,6 +9,8 @@ The editing side of Refract: what a pro edit does, measured from real references
   - `r03-r04-documentary-bio.md`: cold open, iris reveal, type-on name, glowing counter, stencil type behind subject
   - `r01-r09-r11-ai-brand-promos.md`: no-cut continuous transformations, rebuilt 3D UI, DOF + bloom
   - `r02-r05-r10-promo-motion.md`: gradient-blob type, list carousel, fisheye grid, glowing card stacks
+- `motion-graphics.md`: pro motion rulebook (physics, camera/depth/blur, depth-aware text, transitions, banned clichés)
+- `components/push_stack.py`: push-down caption stack for Refract `add_motion_html` (tested on the McConaughey edit)
 - `voice-fx.md`: voice effect recipes (only on request)
 - `installed-skills.md`: motion/video skills available in cloud sessions
 
