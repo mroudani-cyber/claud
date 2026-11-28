@@ -3,3 +3,4 @@ tools/shots/
 tools/*.png
 tools/*.log
 package-lock.json
+*.mp4

@@ -1,0 +1,121 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Anton;src:url(file:///tmp/claude-0/-home-user-claud/3649bfc1-4662-5540-aee6-7c6d47598522/scratchpad/app/node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2)}
+@font-face{font-family:PF;font-style:italic;font-weight:800;src:url(file:///tmp/claude-0/-home-user-claud/3649bfc1-4662-5540-aee6-7c6d47598522/scratchpad/app/node_modules/@fontsource/playfair-display/files/playfair-display-latin-800-italic.woff2)}
+@font-face{font-family:SG;font-weight:500;src:url(file:///tmp/claude-0/-home-user-claud/3649bfc1-4662-5540-aee6-7c6d47598522/scratchpad/app/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2)}
+@font-face{font-family:SG;font-weight:700;src:url(file:///tmp/claude-0/-home-user-claud/3649bfc1-4662-5540-aee6-7c6d47598522/scratchpad/app/node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2)}
+@font-face{font-family:CV;font-weight:700;src:url(file:///tmp/claude-0/-home-user-claud/3649bfc1-4662-5540-aee6-7c6d47598522/scratchpad/app/node_modules/@fontsource/caveat/files/caveat-latin-700-normal.woff2)}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#1a1a1a}
+#view{position:absolute;inset:0;overflow:hidden;background:#d9d3c7}
+#world{position:absolute;left:0;top:0;width:4800px;height:3800px;transform-origin:0 0;background:url(a/paper.jpg)}
+.el{position:absolute;transform-origin:50% 50%;will-change:transform,filter}
+.ink{color:#151515}
+#lbl{font:500 54px SG;letter-spacing:.22em;text-transform:uppercase;white-space:nowrap}
+#h1{font:800 italic 232px/1 PF;white-space:nowrap;letter-spacing:-2px}
+.w{display:inline-block}
+.note{width:300px;height:132px;background:#f7f4ec;display:flex;align-items:center;justify-content:center;font:700 52px SG;letter-spacing:.08em;color:#C21F16;clip-path:polygon(0 4%,8% 0,22% 3%,40% 0,61% 2%,79% 0,100% 3%,98% 52%,100% 97%,83% 100%,64% 97%,41% 100%,18% 97%,0 100%,2% 50%)}
+.tape{width:180px;height:52px;background:url(a/tape.png) center/100% 100%}
+#stamp{width:1040px;height:320px;display:flex;align-items:center;justify-content:center;font:180px Anton;letter-spacing:8px;color:#C21F16;border:14px solid #C21F16;border-radius:26px;box-sizing:border-box;-webkit-mask:url(a/grunge.png) center/cover;mix-blend-mode:multiply}
+#clip{width:1350px;height:1800px}#clip .bg{position:absolute;inset:0;background:url(a/paper.jpg) -300px -300px;filter:brightness(.9) sepia(.25) saturate(.7);clip-path:polygon(0 1%,6% 0,15% .6%,27% 0,41% .8%,55% .1%,68% .9%,83% 0,94% .7%,100% 0,99.4% 20%,100% 45%,99.2% 71%,100% 100%,88% 99.3%,71% 100%,52% 99.1%,33% 100%,17% 99.4%,0 100%,.6% 74%,0 49%,.7% 23%)}
+#clip .mast{position:absolute;left:80px;top:60px;font:800 italic 96px PF;color:#151515;white-space:nowrap}
+#clip .rule{position:absolute;left:80px;right:80px;height:4px;background:#151515}
+#clip .date{position:absolute;left:80px;top:222px;font:500 30px SG;letter-spacing:.25em;color:#333}
+#clip .hl{position:absolute;left:80px;font:250px/1 Anton;color:#151515;white-space:nowrap}
+#clip .txt{position:absolute;left:80px;right:80px;height:14px;background:#9b968c;opacity:.55}
+#strip{width:900px;height:220px;background:#faf8f2;display:flex;align-items:center;justify-content:center;font:178px/1 Anton;color:#151515;letter-spacing:2px;clip-path:polygon(0 3%,14% 0,33% 4%,52% 0,70% 3%,88% 0,100% 2%,99% 50%,100% 98%,80% 100%,58% 96%,37% 100%,16% 97%,0 100%,1% 48%)}
+#note2{font:700 120px CV;color:#C21F16;white-space:nowrap}
+#grain{position:absolute;inset:-50px;background:url(a/grunge.png);opacity:.05;mix-blend-mode:multiply;pointer-events:none}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 65% at 50% 48%,transparent 55%,rgba(30,22,10,.30) 100%);pointer-events:none}
+</style></head><body><div id="view"><div id="world">
+<svg id="paths" width="4800" height="3800" style="position:absolute;left:0;top:0;overflow:visible">
+ <path id="pen" d="" fill="none" stroke="#151515" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+ <path id="pen2" d="" fill="none" stroke="#151515" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+ <g id="xs" stroke="#C21F16" stroke-width="10" stroke-linecap="round"></g>
+</svg>
+<div class="el" id="print" data-z="10"><img src="a/print.jpg" style="display:block"></div>
+<div class="el tape" id="tp1" data-z="11"></div>
+<div class="el ink" id="lbl" data-z="0"><span class="w">failure</span> <span class="w">is</span> <span class="w">part</span> <span class="w">of</span> <span class="w">the</span></div>
+<div class="el note" id="n1" data-z="14">FAIL</div>
+<div class="el note" id="n2" data-z="14">FAIL AGAIN</div>
+<div class="el note" id="n3" data-z="14">FAIL BETTER</div>
+<div class="el ink" id="h1" data-z="0"><span class="w">successful</span> <span class="w">path.</span></div>
+<div class="el" id="stamp" data-z="0">NECESSARY.</div>
+<div class="el" id="clip" data-z="6"><div class="bg"></div><div class="mast">The Morning Mind</div><div class="rule" style="top:188px"></div><div class="date">VOL. 40 — SECOND EDITION</div><div class="rule" style="top:272px;height:2px"></div>
+ <div class="hl" style="top:330px">MIDLIFE</div><div class="hl" style="top:585px">CRISIS</div>
+ <div class="txt" style="top:900px"></div><div class="txt" style="top:940px;right:300px"></div><div class="txt" style="top:980px"></div><div class="txt" style="top:1020px;right:180px"></div><div class="txt" style="top:1100px"></div><div class="txt" style="top:1140px;right:420px"></div><div class="txt" style="top:1180px"></div><div class="txt" style="top:1220px;right:260px"></div><div class="txt" style="top:1300px"></div><div class="txt" style="top:1340px;right:500px"></div></div>
+<div class="el" id="host" data-z="40"><img src="a/host_sticker.png" style="display:block;height:820px"></div>
+<div class="el tape" id="tp2" data-z="41"></div>
+<svg width="4800" height="3800" style="position:absolute;left:0;top:0;overflow:visible;pointer-events:none">
+ <path id="strike" d="M3105 1600 C 3300 1585, 3500 1610, 3640 1578 S 3800 1570, 3830 1566" fill="none" stroke="#C21F16" stroke-width="30" stroke-linecap="round" opacity=".92" style="mix-blend-mode:multiply"/>
+ <path id="arrow" d="M3270 2060 C 3220 1990, 3230 1910, 3300 1850 M3300 1850 l -46 8 M3300 1850 l 4 44" fill="none" stroke="#C21F16" stroke-width="9" stroke-linecap="round"/></svg>
+<div class="el" id="strip" data-z="8">OPPORTUNITY</div>
+<div class="el" id="note2" data-z="0">same life.</div>
+</div><div id="grain"></div><div id="vig"></div></div>
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),lerp=(a,b,t)=>a+(b-a)*t,seg=(t,a,b)=>clamp((t-a)/(b-a));
+const E={expoOut:x=>x>=1?1:1-Math.pow(2,-10*x),expoIn:x=>x<=0?0:Math.pow(2,10*x-10),cubicOut:x=>1-Math.pow(1-x,3),cubicIn:x=>x*x*x,
+ inOutCubic:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,inOutQuart:x=>x<.5?8*x**4:1-Math.pow(-2*x+2,4)/2,inOutSine:x=>-(Math.cos(Math.PI*x)-1)/2,quadIn:x=>x*x,lin:x=>x};
+const kf=(keys)=>t=>{if(t<=keys[0][0])return keys[0].slice(1,-1);for(let i=1;i<keys.length;i++){const a=keys[i-1],b=keys[i];if(t<=b[0]){const e=E[b[b.length-1]](seg(t,a[0],b[0]));return a.slice(1,-1).map((v,j)=>lerp(v,b[j+1],e))}}return keys[keys.length-1].slice(1,-1)};
+const $=id=>document.getElementById(id);
+// ---------- layout ----------
+const place=(id,x,y,r=0)=>{const e=$(id);e._x=x;e._y=y;e._r=r;e._s=1;};
+place('print',560,2380,-5); place('tp1',780,2360,-12);
+place('lbl',600,3230,-1); place('h1',820,700,0); place('stamp',640,1620,-7);
+place('clip',3050,900,1.2); place('host',3900,560,4); place('tp2',4070,560,-8);
+place('strip',3040,1440,-1.5); place('note2',3330,1950,-4);
+// path through points (Catmull-Rom -> Bezier)
+const P=[[1240,2760],[1480,2640],[1600,2440],[1470,2350],[1640,2170],[1900,2040],[1780,1950],[2020,1760],[2280,1620],[2150,1520],[2330,1330],[2460,1030]];
+function cr(P){let d='M'+P[0];for(let i=0;i<P.length-1;i++){const p0=P[i-1]||P[i],p1=P[i],p2=P[i+1],p3=P[i+2]||p2;
+ d+=' C'+[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6]+' '+[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6]+' '+p2}return d}
+const pen=$('pen'),pen2=$('pen2');pen.setAttribute('d',cr(P));pen2.setAttribute('d',cr(P.map(([x,y],i)=>[x+4*Math.sin(i*1.7),y+3*Math.cos(i*2.3)])));
+const L=pen.getTotalLength();[pen,pen2].forEach(p=>{p.style.strokeDasharray=L;});
+const lenAt=pt=>{let best=0,bd=1e9;for(let s=0;s<=L;s+=4){const q=pen.getPointAtLength(s),d=(q.x-pt[0])**2+(q.y-pt[1])**2;if(d<bd){bd=d;best=s}}return best};
+const fails=[[3,'n1',[1300,2230],-6],[6,'n2',[1960,1880],5],[9,'n3',[1900,1420],-3]].map(([pi,id,pos,r])=>({id,pos,r,len:lenAt(P[pi]),pt:P[pi]}));
+fails.forEach(f=>place(f.id,f.pos[0],f.pos[1],f.r));
+const xs=$('xs');fails.forEach(f=>{const [x,y]=f.pt;xs.insertAdjacentHTML('beforeend',`<path d="M${x-26} ${y-26} L${x+26} ${y+26} M${x+26} ${y-26} L${x-26} ${y+26}" opacity="0" data-len="${f.len}"/>`)});
+const strike=$('strike'),SL=strike.getTotalLength();strike.style.strokeDasharray=SL;
+const arrow=$('arrow'),AL=arrow.getTotalLength();arrow.style.strokeDasharray=AL;
+// ---------- timing ----------
+const D=8.75; window.VIDEO={w:1080,h:1920,duration:D};
+const penP=t=>E.inOutSine(seg(t,0.42,2.80));
+const penPt=t=>{const q=pen.getPointAtLength(penP(t)*L);return [q.x,q.y]};
+const camKeys=kf([[0,880,3300,1.25,-6,'lin'],[0.34,930,2800,1.02,-2,'expoOut'],[0.5,960,2780,1.02,-2,'lin'],
+ [2.78,0,0,0,0,'lin'],[3.22,1520,1880,0.56,0,'inOutCubic'],[4.28,1535,1870,0.58,0,'lin'],[4.86,3820,1280,0.72,1.5,'inOutQuart'],
+ [5.84,3760,1260,0.75,1.5,'lin'],[6.42,3460,1460,1.05,0,'inOutCubic'],[7.55,3470,1490,1.10,-.5,'lin'],[8.42,3480,1620,1.24,-.8,'inOutSine'],[8.75,3200,1552,7,-.8,'expoIn']]);
+function cam(t){
+ if(t>0.5&&t<2.78){const f=penPt(t-0.08);const blendIn=E.cubicOut(seg(t,0.5,0.95));return [lerp(960,f[0]-60,blendIn),lerp(2780,f[1]+120,blendIn),1.02,lerp(-2,0,seg(t,.5,2.7))]}
+ if(t>=2.78&&t<=3.22){const f=penPt(2.7);const e=E.inOutCubic(seg(t,2.78,3.22));return [lerp(f[0]-60,1520,e),lerp(f[1]+120,1880,e),lerp(1.02,0.56,e),0]}
+ return camKeys(t)}
+const focusKeys=kf([[0,10,'lin'],[0.45,10,'lin'],[0.9,0,'inOutCubic'],[4.3,0,'lin'],[4.75,40,'inOutCubic'],[5.8,40,'lin'],[6.25,4,'inOutCubic'],[7.05,4,'lin'],[7.45,8,'inOutCubic']]);
+const shake=t=>{const k=seg(t,3.30,3.52);if(k<=0||k>=1)return[0,0];const a=(1-k)*(1-k)*10;return[a*Math.sin(k*34),a*Math.cos(k*29)]};
+// ---------- per-frame ----------
+const els=[...document.querySelectorAll('.el')];
+window.seek=function(t){
+ const [cx,cy,s,r]=cam(t),[sx,sy]=shake(t),fz=focusKeys(t)[0];
+ $('world').style.transform=`translate(${540+sx}px,${960+sy}px) rotate(${r}deg) scale(${s}) translate(${-cx}px,${-cy}px)`;
+ // pen
+ const pl=penP(t)*L;pen.style.strokeDashoffset=L-pl;pen2.style.strokeDashoffset=L-pl;
+ [...xs.children].forEach(x=>{const on=seg(pl,+x.dataset.len,+x.dataset.len+60);x.setAttribute('opacity',on>0?1:0);x.style.strokeDasharray=200;x.style.strokeDashoffset=200*(1-E.cubicOut(on))});
+ strike.style.strokeDashoffset=SL*(1-E.cubicOut(seg(t,6.58,6.86)));
+ arrow.style.strokeDashoffset=AL*(1-E.cubicOut(seg(t,7.95,8.25)));
+ // dynamic element states: z, opacity, scale
+ const st={};
+ fails.forEach(f=>{const tt=(f.len/L);const tp=0.42+ (2.38)*Math.acos(1-2*tt)/Math.PI; const k=seg(t,tp-0.02,tp+0.26);st[f.id]={z:lerp(150,14,E.quadIn(k)),o:k>0?clamp(k*4):0}});
+ const sk=seg(t,3.18,3.30);st.stamp={z:lerp(320,0,E.quadIn(sk)),o:sk>0?1:0};
+ const fk=seg(t,7.08,7.44);st.strip={z:lerp(260,8,E.quadIn(fk)),o:fk>0?clamp(fk*3):0,rr:lerp(-9,0,E.cubicOut(fk))};
+ if(t>7.44){const k=seg(t,7.44,7.62);st.strip.rr=lerp(0.9,0,E.cubicOut(k));}
+ for(const e of els){
+  const S=st[e.id]||{};let z=S.z!==undefined?S.z:+e.dataset.z,o=S.o!==undefined?S.o:1;
+  const sc=1+z*0.0022, dz=Math.abs(z-fz), blurScreen=Math.min(12,dz*0.16), b=blurScreen/Math.max(s,0.3);
+  const sh=`drop-shadow(${(z*0.18+2).toFixed(1)}px ${(z*0.36+4).toFixed(1)}px ${(z*0.5+5).toFixed(1)}px rgba(40,28,10,${(0.30-Math.min(z,300)*0.0006).toFixed(3)}))`;
+  e.style.transform=`translate(${e._x}px,${e._y}px) rotate(${e._r+(S.rr||0)}deg) scale(${sc})`;
+  e.style.filter=(e.id==='lbl'||e.id==='h1'||e.id==='note2'?'':sh)+(b>0.25?` blur(${b.toFixed(2)}px)`:'');
+  e.style.opacity=o;
+ }
+ // ink-in words
+ const ink=(sel,times)=>[...document.querySelectorAll(sel+' .w')].forEach((w,i)=>{const k=seg(t,times[i],times[i]+0.14);w.style.opacity=k;w.style.filter=`blur(${(1-k)*6}px)`});
+ ink('#lbl',[0.52,0.74,0.86,1.02,1.14]); ink('#h1',[2.62,2.92]);
+ const nk=seg(t,7.92,8.3);$('note2').style.clipPath=`inset(0 ${(1-E.cubicOut(nk))*100}% 0 0)`;
+ $('grain').style.transform=`translate(${(Math.floor(t*24)*37)%50}px,${(Math.floor(t*24)*53)%50}px)`;
+};
+document.fonts.ready.then(()=>{window.READY=true;seek(0)});
+</script></body></html>

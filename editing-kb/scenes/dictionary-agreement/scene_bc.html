@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="lib.css"><style>
+#world{width:3000px;height:4200px}
+#dict{width:1400px;height:860px} #agr{width:1400px;height:1480px}
+.hw{position:absolute;left:90px;top:40px;font:800 italic 210px/1 PF;color:#151515;white-space:nowrap}
+.pr{position:absolute;left:100px;top:320px;font:500 46px SG;color:#444;white-space:nowrap}.pr i{font:800 italic 46px PF;color:#151515;margin-left:24px}
+.rl{position:absolute;left:90px;right:90px;height:3px;background:#151515}
+#def1{position:absolute;left:100px;top:450px;font:500 60px SG;color:#151515;white-space:nowrap}
+#def2{position:absolute;left:100px;top:600px;font:800 italic 50px PF;color:#6b665d;white-space:nowrap}
+.ah{position:absolute;left:90px;top:70px;font:140px/1 Anton;letter-spacing:4px;color:#151515}
+.as{position:absolute;left:96px;top:240px;font:500 34px SG;letter-spacing:.25em;color:#444;white-space:nowrap}
+.ab{position:absolute;left:90px;top:360px;font:800 italic 56px PF;color:#333}
+.af{position:absolute;left:84px;font:800 italic 196px/1 PF;color:#151515;white-space:nowrap;letter-spacing:-2px}
+.sl{position:absolute;top:1170px;height:3px;background:#151515;width:540px}.lb{position:absolute;top:1188px;font:500 30px SG;letter-spacing:.2em;color:#555}
+.sig{position:absolute;top:1030px;font:700 92px CV;color:#1d2f7a;white-space:nowrap}
+#stamp{width:900px;height:280px;font-size:190px;letter-spacing:10px}
+svg.ov{position:absolute;left:0;top:0;overflow:visible}
+</style></head><body><div id="view"><div id="world">
+<div class="el print" id="fr" data-z="10"><img id="frimg" src="a/still_878.jpg" width="454" height="807"></div>
+<div class="el tape" id="tp0" data-z="11"></div>
+<div class="el card torn" id="dict" data-z="14">
+ <div class="hw" id="hw">fail·ure</div><div class="pr">/ˈfeɪl.jər/<i>noun</i></div><div class="rl" style="top:410px"></div>
+ <div id="def1"></div><div id="def2"><span class="w">2.</span> <span class="w">see</span> <span class="w">also:</span> <span class="w">success.</span></div>
+ <svg class="ov" width="1400" height="860"><path id="ul" fill="none" stroke="#C21F16" stroke-width="12" stroke-linecap="round" d="M95 285 C 300 300, 600 270, 860 290"/><path id="circ" fill="none" stroke="#C21F16" stroke-width="9" stroke-linecap="round" d=""/></svg>
+</div>
+<div class="el tape" id="tp1" data-z="15"></div>
+<div class="el card torn" id="agr" data-z="14">
+ <div class="ah">AGREEMENT</div><div class="as">BETWEEN YOU AND YOUR FUTURE</div><div class="rl" style="top:320px"></div>
+ <div class="ab">Both parties accept that</div>
+ <div class="af" id="af1" style="top:470px"><span class="w">Failure</span></div><div class="af" id="af2" style="top:690px"><span class="w">will</span> <span class="w">happen.</span></div>
+ <div class="sl" style="left:90px"></div><div class="sl" style="left:770px"></div><div class="lb" style="left:92px">SIGNED</div><div class="lb" style="left:772px">SIGNED</div>
+ <div class="sig" id="sig1" style="left:100px">M. McConaughey</div><div class="sig" id="sig2" style="left:900px">you</div>
+</div>
+<div class="el tape" id="tp2" data-z="15"></div>
+<div class="el stamp" id="stamp" data-z="0" data-flat>AGREED.</div>
+</div><div id="grain"></div><div id="vig"></div></div>
+<script src="lib.js"></script><script>
+const D=6.4;window.VIDEO={w:1080,h:1920,duration:D};
+place('fr',300,500,-4);place('tp0',420,478,-10);place('dict',900,450,1.5);place('tp1',1500,420,4);
+place('agr',700,1750,-1);place('tp2',1250,1722,-5);place('stamp',1250,2780,-10);
+// typewriter definition with per-character timing
+const def='1. an embarrassing thing to do.';const d1=$('def1');
+def.split('').forEach((c,i)=>{const s=document.createElement('span');s.textContent=c===' '?' ':c;s.className='ch';d1.appendChild(s)});
+const chT=i=>i<6?lerp(2.2,2.6,i/6):i<18?lerp(2.65,3.15,(i-6)/12):lerp(3.45,3.95,(i-18)/13);
+const chars=[...d1.children];
+// marker ellipse around "embarrassing" (chars 6..17)
+function circle(){const a=chars[6],b=chars[17];const x0=a.offsetLeft+100-24,x1=b.offsetLeft+b.offsetWidth+100+24,y0=450-6,y1=450+78;
+ const cx=(x0+x1)/2,cy=(y0+y1)/2,rx=(x1-x0)/2,ry=(y1-y0)/2+10;let d='';for(let k=0;k<=64;k++){const a2=-2.2+k/64*2*Math.PI*1.08;const w=1+0.04*Math.sin(k*.7);d+=(k?'L':'M')+(cx+rx*w*Math.cos(a2)).toFixed(1)+' '+(cy+ry*w*Math.sin(a2)).toFixed(1)}
+ $('circ').setAttribute('d',d);}
+const ul=$('ul'),UL=ul.getTotalLength();ul.style.strokeDasharray=UL;
+const cam=kf([[0,545.4,923.1,2.328,4,'lin'],[0.75,1180,930,0.62,0.6,'expoOut'],[1.4,1390,880,0.80,0.3,'inOutCubic'],[3.5,1370,940,0.98,0,'inOutSine'],[4.15,1372,950,1.0,0,'lin'],
+ [4.62,1330,2380,0.78,-0.4,'inOutQuart'],[5.4,1370,2700,0.9,-0.6,'inOutCubic'],[5.95,1330,2450,0.84,-0.6,'inOutCubic'],[6.18,1340,2470,0.85,-0.6,'lin'],[6.4,1700,2920,7,-0.6,'expoIn']]);
+const focus=kf([[0,10,'lin'],[0.75,10,'lin'],[1.3,14,"inOutCubic"]]);
+window.seek=function(t){
+ const st={};
+ st.fr={extra:` grayscale(${E.inOutSine(seg(t,0.25,0.85)).toFixed(3)}) contrast(${(1+0.15*seg(t,0.25,0.85)).toFixed(3)})`};
+ const sd=drop(t,6.02,0.11,320,0,4);st.stamp={z:sd.z,o:sd.o,rr:sd.rr};
+ renderWorld(t,cam(t),focus(t)[0],st,shake(t,6.13,11));
+ chars.forEach((c,i)=>{c.style.opacity=t>=chT(i)?1:0});
+ ul.style.strokeDashoffset=UL*(1-E.cubicOut(seg(t,1.42,1.78)));
+ const C=$('circ');if(C._L===undefined&&C.getAttribute('d')){C._L=C.getTotalLength();C.style.strokeDasharray=C._L}
+ if(C._L)C.style.strokeDashoffset=C._L*(1-E.inOutSine(seg(t,3.2,3.62)));
+ inkWords('#def2',t,[3.72,3.8,3.88,3.98]);
+ inkWords('#af1',t,[5.45]);inkWords('#af2',t,[5.75,5.95]);
+ $('sig1').style.clipPath=`inset(-20% ${(1-E.inOutSine(seg(t,4.62,5.12)))*100}% -20% 0)`;
+ $('sig2').style.clipPath=`inset(-20% ${(1-E.inOutSine(seg(t,5.08,5.34)))*100}% -20% 0)`;
+};
+document.fonts.ready.then(()=>{circle();window.READY=true;seek(0)});
+</script></body></html>
