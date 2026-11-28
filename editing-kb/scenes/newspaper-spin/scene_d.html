@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="lib.css"><style>
+#world{width:3200px;height:4200px}
+#np{width:1500px;height:2000px}
+#np .bg{position:absolute;inset:0;background:url(a/paper.jpg) -500px -400px}
+.m{position:absolute;left:90px;top:70px;font:800 italic 118px PF;color:#151515;white-space:nowrap}
+.r{position:absolute;left:90px;right:90px;height:4px;background:#151515}
+.dt{position:absolute;left:92px;top:232px;font:500 32px SG;letter-spacing:.25em;color:#333;white-space:nowrap}
+.k{position:absolute;left:92px;top:350px;font:700 48px SG;letter-spacing:.3em;color:#C21F16;white-space:nowrap}
+.hl{position:absolute;left:84px;top:420px;font:250px/1 Anton;color:#151515;white-space:nowrap;letter-spacing:-2px}
+#sub{position:absolute;left:90px;top:690px;font:800 italic 170px/1 PF;color:#151515;white-space:nowrap}
+.ph{position:absolute;left:90px;top:960px;width:640px;height:480px;background:url(a/host_bw.jpg) center/cover}
+.cap{position:absolute;left:90px;top:1460px;font:800 italic 34px PF;color:#444;white-space:nowrap}
+.tx{position:absolute;height:14px;background:#9b968c;opacity:.55}
+</style></head><body><div id="view"><div id="world">
+<div class="el print" id="pm" data-z="10"><img src="a/print.jpg" width="420"></div>
+<div class="el torn" id="np" data-z="12"><div class="bg newsprint"></div>
+ <div class="m">The Morning Mind</div><div class="r" style="top:210px"></div><div class="dt">VOL. 40 — LATE EDITION</div><div class="r" style="top:290px;height:2px"></div>
+ <div class="k">LANGUAGE SHIFT</div><div class="hl">REVOLUTIONARY</div>
+ <div id="sub"><span class="w">for</span> <span class="w">the</span> <span class="w">mind.</span></div>
+ <div class="ph"></div><div class="cap">“Midlife opportunity.”</div>
+ <div id="cols"></div>
+</div>
+</div><div id="grain"></div><div id="vig"></div></div>
+<script src="lib.js"></script><script>
+const D=3.24;window.VIDEO={w:1080,h:1920,duration:D};
+place('np',850,1000,-2);place('pm',120,2550,7);
+let h='';for(let i=0;i<17;i++){const y=960+i*44;h+=`<div class="tx" style="left:780px;right:90px;top:${y}px;${i%5==4?'right:300px':''}"></div>`}
+for(let i=0;i<9;i++){const y=1540+i*44;h+=`<div class="tx" style="left:90px;right:${i%4==3?420:90}px;top:${y}px"></div>`}
+$('cols').innerHTML=h;
+const cam=kf([[0,1600,1950,0.62,0,'lin'],[0.8,1600,1950,0.64,0,'lin'],[3.24,1585,1760,0.78,0,'inOutSine']]);
+window.seek=function(t){
+ const k=seg(t,0,0.8),e=E.quartOut(k);
+ const st={np:{z:lerp(700,12,E.cubicOut(k)),sc:lerp(0.06,1,e)/(1+lerp(700,12,E.cubicOut(k))*0.0022)*(1+12*0.0022),rr:lerp(-1080,0,e),o:k>0?1:0}};
+ renderWorld(t,cam(t),12,st,shake(t,0.8,7,.18));
+ inkWords('#sub',t,[1.62,2.12,2.74]);
+};
+document.fonts.ready.then(()=>{window.READY=true;seek(0)});
+</script></body></html>
