@@ -2,6 +2,7 @@
 
 The editing side of Refract: what a pro edit does, measured from real references, and how to rebuild it.
 
+- `HANDOFF.md`: START HERE: complete handoff for the next AI editor
 - `references-batch-01.md`: overview table of the 11 reference videos (batch 01)
 - `breakdowns/`: per-video shot maps, transitions, type, colour and rebuild recipes
   - `r07-kinetic-type-masterclass.md`: word = beat = visual; text behind subject; collage; 2-frame strobes
